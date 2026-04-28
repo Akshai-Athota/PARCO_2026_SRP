@@ -19,6 +19,7 @@ def parco_get_decoding_strategy(decoding_strategy, **config):
     strategy_registry = {
         "greedy": Greedy,
         "sampling": Sampling,
+        "sequential": SequentialSampling,
         "evaluate": Evaluate,
     }
 
@@ -264,6 +265,91 @@ class Sampling(PARCODecodingStrategy):
         """Sample an action with a multinomial distribution given by the log probabilities."""
         selected = self.sampling(logprobs, mask)
         return logprobs, selected, td
+
+
+class SequentialSampling(PARCODecodingStrategy):
+    name = "sequential"
+
+    def __init__(self, num_agents: int, num_parallel_agents: int = 1, **kwargs):
+        super().__init__(num_agents=num_agents, **kwargs)
+        self.num_parallel_agents = num_parallel_agents
+
+    def step(
+        self,
+        logits: torch.Tensor,
+        mask: torch.Tensor,
+        td: TensorDict = None,
+        agent_handler_kwargs: dict = {},
+        **kwargs,
+    ) -> TensorDict:
+        self.iter_count += 1
+        
+        batch_size, num_agents, num_targets = logits.shape
+        
+        # Apply Tanh logit clipping (Gemma 2 style)
+        if self.tanh_clipping > 0:
+            logits = self.tanh_clipping * torch.tanh(logits / self.tanh_clipping)
+
+        # Clone mask because we'll modify it dynamically during the loop
+        step_mask = mask.clone()
+        logits_masked = logits.masked_fill(~step_mask, -torch.inf)
+        
+        # Determine the fallback replacement value for agents that do NOT move
+        replacement_value = td[self.replacement_value_key]
+        if replacement_value.dim() == 1:
+            replacement_value = replacement_value.unsqueeze(1).expand(-1, num_agents)
+        elif replacement_value.size(1) != num_agents:
+            replacement_value = replacement_value.expand(-1, num_agents)
+            
+        actions = replacement_value.clone()
+        step_logprobs = torch.zeros(batch_size, num_agents, device=logits.device)
+        b_idx = torch.arange(batch_size, device=logits.device)
+        
+        # Iteratively sample agents without replacing the decoder context
+        for _ in range(min(self.num_parallel_agents, num_agents)):
+            flat_logits = logits_masked.view(batch_size, -1)
+            if self.temperature != 1.0:
+                flat_logits = flat_logits / self.temperature
+                
+            flat_logprobs = F.log_softmax(flat_logits, dim=-1)
+            probs = torch.exp(flat_logprobs)
+            
+            # Sample one joint (agent, target) pair
+            selected_flat = torch.multinomial(probs, 1).squeeze(1)  # [B]
+            
+            selected_agent = selected_flat // num_targets  # [B]
+            selected_target = selected_flat % num_targets  # [B]
+            
+            # Update the selected agent's action and logprob
+            actions[b_idx, selected_agent] = selected_target
+            step_logprobs[b_idx, selected_agent] = flat_logprobs[b_idx, selected_flat]
+            
+            # Mask out the chosen agent from being selected again in this timestep
+            step_mask[b_idx, selected_agent, :] = False
+            logits_masked[b_idx, selected_agent, :] = -torch.inf
+            
+        actions_init = actions.clone()
+
+        # Solve any environmental conflicts via agent handler (e.g. 2 agents visiting same node)
+        actions, handling_mask, halting_ratio = self.agent_handler(
+            actions, replacement_value, td, probs=torch.exp(step_logprobs), **agent_handler_kwargs
+        )
+        
+        if self.store_handling_mask:
+            self.handling_masks.append(handling_mask)
+        self.halting_ratios.append(halting_ratio)
+        
+        if not self.store_all_logp:
+            if self.mask_handled:
+                step_logprobs.masked_fill_(handling_mask, 0)
+
+        td.set("action", actions)
+        self.actions.append(actions)
+        self.logprobs.append(step_logprobs)
+        return td
+
+    def _step(self, logprobs, mask, td, action=None, **kwargs):
+        pass
 
 
 class Evaluate(PARCODecodingStrategy):

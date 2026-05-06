@@ -19,6 +19,9 @@ dependencies = [
     "ipykernel",
     "ortools>=9.11.4210",
     "huggingface-hub[cli]>=0.30.2",
+    "jupyter>=1.1.1",
+    "nbconvert>=7.17.1",
+    "wandb>=0.19.10",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

@@ -1,0 +1,909 @@
+[2026-04-29 13:48:37,996][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-04-29 13:48:38,001][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-04-29 13:48:38,081][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-04-29 13:48:41,885][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-04-29 13:48:42,604][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-04-29 13:48:42,641][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-04-29 13:48:42,904][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-04-29 13:48:42,904][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-04-29 13:48:42,905][__main__][INFO] - Instantiating callbacks...
+[2026-04-29 13:48:42,906][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-04-29 13:48:42,929][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-04-29 13:48:42,930][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-04-29 13:48:42,931][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-04-29 13:48:42,938][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-04-29 13:48:42,939][__main__][INFO] - Instantiating loggers...
+[2026-04-29 13:48:42,939][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-04-29 13:48:42,945][__main__][INFO] - Instantiating trainer...
+[2026-04-29 13:48:43,067][__main__][INFO] - Logging hyperparameters!
+[2026-04-29 13:48:51,803][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 68, in run
+    utils.log_hyperparameters(object_dict)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 178, in log_hyperparameters
+    logger.log_hyperparams(hparams)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loggers/wandb.py", line 432, in log_hyperparams
+    self.experiment.config.update(params, allow_val_change=True)
+    ^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/fabric/loggers/logger.py", line 118, in experiment
+    return fn(self)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loggers/wandb.py", line 407, in experiment
+    self._experiment = wandb.init(**self._wandb_init)
+                       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1664, in init
+    wandb._sentry.reraise(e)
+    ~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/analytics/sentry.py", line 156, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1596, in init
+    wi.maybe_login(init_settings)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 208, in maybe_login
+    wandb_login._login(
+    ~~~~~~~~~~~~~~~~~~^
+        anonymous=run_settings.anonymous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        _silent=run_settings.quiet or run_settings.silent,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_login.py", line 314, in _login
+    key, key_status = wlogin.prompt_api_key(referrer=referrer)
+                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_login.py", line 242, in prompt_api_key
+    raise UsageError("api_key not configured (no-tty). call " + directive)
+wandb.errors.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+[2026-04-29 13:48:51,813][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco/2026-04-29_13-48-37
+[2026-04-29 13:48:51,813][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-03 23:29:31,688][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-03 23:29:31,692][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-03 23:29:31,824][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-05-03 23:29:33,026][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-05-03 23:29:33,311][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-05-03 23:29:33,469][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-05-03 23:29:33,518][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-03 23:29:33,519][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-03 23:29:33,520][__main__][INFO] - Instantiating callbacks...
+[2026-05-03 23:29:33,520][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-03 23:29:33,527][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-03 23:29:33,528][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-03 23:29:33,528][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-03 23:29:33,531][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-03 23:29:33,532][__main__][INFO] - Instantiating loggers...
+[2026-05-03 23:29:33,532][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-03 23:29:33,536][__main__][INFO] - Instantiating trainer...
+[2026-05-03 23:29:33,569][__main__][INFO] - Logging hyperparameters!
+[2026-05-03 23:29:36,322][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 68, in run
+    utils.log_hyperparameters(object_dict)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 178, in log_hyperparameters
+    logger.log_hyperparams(hparams)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loggers/wandb.py", line 432, in log_hyperparams
+    self.experiment.config.update(params, allow_val_change=True)
+    ^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/fabric/loggers/logger.py", line 118, in experiment
+    return fn(self)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loggers/wandb.py", line 407, in experiment
+    self._experiment = wandb.init(**self._wandb_init)
+                       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1664, in init
+    wandb._sentry.reraise(e)
+    ~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/analytics/sentry.py", line 156, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1596, in init
+    wi.maybe_login(init_settings)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 208, in maybe_login
+    wandb_login._login(
+    ~~~~~~~~~~~~~~~~~~^
+        anonymous=run_settings.anonymous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        _silent=run_settings.quiet or run_settings.silent,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_login.py", line 314, in _login
+    key, key_status = wlogin.prompt_api_key(referrer=referrer)
+                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_login.py", line 242, in prompt_api_key
+    raise UsageError("api_key not configured (no-tty). call " + directive)
+wandb.errors.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+[2026-05-03 23:29:36,332][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco/2026-05-03_23-29-31
+[2026-05-03 23:29:36,332][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-04 11:38:19,524][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-04 11:38:19,528][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-04 11:38:19,586][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-05-04 11:38:20,149][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-05-04 11:38:20,268][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-05-04 11:38:20,401][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-05-04 11:38:20,724][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-04 11:38:20,725][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-04 11:38:20,726][__main__][INFO] - Instantiating callbacks...
+[2026-05-04 11:38:20,726][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-04 11:38:20,731][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-04 11:38:20,731][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-04 11:38:20,731][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-04 11:38:20,733][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-04 11:38:20,733][__main__][INFO] - Instantiating loggers...
+[2026-05-04 11:38:20,734][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-04 11:38:20,737][__main__][INFO] - Instantiating trainer...
+[2026-05-04 11:38:20,762][__main__][INFO] - Logging hyperparameters!
+[2026-05-04 11:38:22,259][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 68, in run
+    utils.log_hyperparameters(object_dict)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 178, in log_hyperparameters
+    logger.log_hyperparams(hparams)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loggers/wandb.py", line 432, in log_hyperparams
+    self.experiment.config.update(params, allow_val_change=True)
+    ^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/fabric/loggers/logger.py", line 118, in experiment
+    return fn(self)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loggers/wandb.py", line 407, in experiment
+    self._experiment = wandb.init(**self._wandb_init)
+                       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1664, in init
+    wandb._sentry.reraise(e)
+    ~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/analytics/sentry.py", line 156, in reraise
+    raise exc.with_traceback(sys.exc_info()[2])
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1596, in init
+    wi.maybe_login(init_settings)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 208, in maybe_login
+    wandb_login._login(
+    ~~~~~~~~~~~~~~~~~~^
+        anonymous=run_settings.anonymous,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        _silent=run_settings.quiet or run_settings.silent,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_login.py", line 314, in _login
+    key, key_status = wlogin.prompt_api_key(referrer=referrer)
+                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_login.py", line 242, in prompt_api_key
+    raise UsageError("api_key not configured (no-tty). call " + directive)
+wandb.errors.errors.UsageError: api_key not configured (no-tty). call wandb.login(key=[your_api_key])
+[2026-05-04 11:38:22,265][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco/2026-05-04_11-38-19
+[2026-05-04 11:38:22,266][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-05 20:59:16,402][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-05 20:59:16,407][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-05 20:59:16,470][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-05-05 20:59:17,234][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-05-05 20:59:17,378][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-05-05 20:59:17,477][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-05-05 20:59:18,021][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-05 20:59:18,022][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-05 20:59:18,023][__main__][INFO] - Instantiating callbacks...
+[2026-05-05 20:59:18,024][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-05 20:59:18,029][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-05 20:59:18,030][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-05 20:59:18,030][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-05 20:59:18,032][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-05 20:59:18,033][__main__][INFO] - Instantiating loggers...
+[2026-05-05 20:59:18,033][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-05 20:59:18,038][__main__][INFO] - Instantiating trainer...
+[2026-05-05 20:59:18,067][__main__][INFO] - Logging hyperparameters!
+[2026-05-05 21:52:50,485][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 68, in run
+    utils.log_hyperparameters(object_dict)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 178, in log_hyperparameters
+    logger.log_hyperparams(hparams)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning_utilities/core/rank_zero.py", line 41, in wrapped_fn
+    return fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loggers/wandb.py", line 432, in log_hyperparams
+    self.experiment.config.update(params, allow_val_change=True)
+    ^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/fabric/loggers/logger.py", line 118, in experiment
+    return fn(self)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loggers/wandb.py", line 407, in experiment
+    self._experiment = wandb.init(**self._wandb_init)
+                       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1603, in init
+    get_sentry().reraise(e)
+    ~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/analytics/sentry.py", line 190, in reraise
+    raise exc.with_traceback(tb)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1586, in init
+    run = wi.init(run_settings, run_config, run_printer)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/wandb/sdk/wandb_init.py", line 1036, in init
+    raise CommError(
+    ...<3 lines>...
+    ) from None
+wandb.errors.errors.CommError: Run initialization has timed out after 90.0 sec. Please try increasing the timeout with the `init_timeout` setting: `wandb.init(settings=wandb.Settings(init_timeout=120))`.
+[2026-05-05 21:52:50,495][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco/2026-05-05_20-59-16
+[2026-05-05 21:52:50,496][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-05 21:53:30,532][urllib3.connectionpool][WARNING] - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NameResolutionError("HTTPSConnection(host='o151352.ingest.sentry.io', port=443): Failed to resolve 'o151352.ingest.sentry.io' ([Errno -3] Temporary failure in name resolution)")': /api/4504800232407040/envelope/
+[2026-05-05 21:54:10,571][urllib3.connectionpool][WARNING] - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NameResolutionError("HTTPSConnection(host='o151352.ingest.sentry.io', port=443): Failed to resolve 'o151352.ingest.sentry.io' ([Errno -3] Temporary failure in name resolution)")': /api/4504800232407040/envelope/
+[2026-05-05 21:54:50,615][urllib3.connectionpool][WARNING] - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NameResolutionError("HTTPSConnection(host='o151352.ingest.sentry.io', port=443): Failed to resolve 'o151352.ingest.sentry.io' ([Errno -3] Temporary failure in name resolution)")': /api/4504800232407040/envelope/
+[2026-05-18 13:21:07,979][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-18 13:21:07,983][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-18 13:21:08,156][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-05-18 13:21:09,638][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-05-18 13:21:09,925][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-05-18 13:21:10,034][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-05-18 13:21:10,183][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 13:21:10,184][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 13:21:10,185][__main__][INFO] - Instantiating callbacks...
+[2026-05-18 13:21:10,185][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-18 13:21:10,192][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-18 13:21:10,193][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-18 13:21:10,193][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-18 13:21:10,214][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-18 13:21:10,215][__main__][INFO] - Instantiating loggers...
+[2026-05-18 13:21:10,216][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-18 13:21:10,225][__main__][INFO] - Instantiating trainer...
+[2026-05-18 13:21:10,307][__main__][INFO] - Logging hyperparameters!
+[2026-05-18 13:21:15,872][__main__][INFO] - Starting training!
+[2026-05-18 13:21:57,161][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-05-18 13:21:57,162][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-05-18 13:21:59,382][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-05-18 13:22:00,075][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-05-18 13:22:00,399][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-05-18 13:22:00,401][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <MultiStepLR>
+[2026-05-18 13:22:17,592][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 76, in run
+    trainer.fit(model=model, ckpt_path=cfg.get("ckpt_path"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/trainer.py", line 146, in fit
+    super().fit(
+    ~~~~~~~~~~~^
+        model=model,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        ckpt_path=ckpt_path,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 47, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+    return function(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 216, in run
+    self.advance()
+    ~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 455, in advance
+    self.epoch_loop.run(self._data_fetcher)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 150, in run
+    self.advance(data_fetcher)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 320, in advance
+    batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 192, in run
+    self._optimizer_step(batch_idx, closure)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 270, in _optimizer_step
+    call._call_lightning_module_hook(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        trainer,
+        ^^^^^^^^
+    ...<4 lines>...
+        train_step_and_backward_closure,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 176, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/core/module.py", line 1302, in optimizer_step
+    optimizer.step(closure=optimizer_closure)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/core/optimizer.py", line 154, in step
+    step_output = self._strategy.optimizer_step(self._optimizer, closure, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/ddp.py", line 270, in optimizer_step
+    optimizer_output = super().optimizer_step(optimizer, closure, model, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 239, in optimizer_step
+    return self.precision_plugin.optimizer_step(optimizer, model=model, closure=closure, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/plugins/precision/amp.py", line 79, in optimizer_step
+    closure_result = closure()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+    self._result = self.closure(*args, **kwargs)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+    step_output = self._step_fn()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
+    training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 328, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
+    return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+    wrapper_output = wrapper_module(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1637, in forward
+    else self._run_ddp_forward(*inputs, **kwargs)
+         ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1464, in _run_ddp_forward
+    return self.module(*inputs, **kwargs)  # type: ignore[index]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+    out = method(*_args, **_kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/rl/common/base.py", line 258, in training_step
+    return self.shared_step(batch, batch_idx, phase="train")
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/parco/models/rl.py", line 115, in shared_step
+    out = self.policy(
+        td,
+    ...<2 lines>...
+        return_init_embeds=True,
+    )
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/policy.py", line 187, in forward
+    logits, mask = self.decoder(td, hidden, num_samples, do_unbatchify)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/decoder.py", line 75, in forward
+    glimpse_k, glimpse_v, logit_k = self._compute_kvl(cached, td)
+                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/zoo/am/decoder.py", line 156, in _compute_kvl
+    glimpse_v = glimpse_v_stat + glimpse_v_dyn
+                ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 24.00 MiB. GPU 0 has a total capacity of 7.79 GiB of which 8.44 MiB is free. Including non-PyTorch memory, this process has 7.78 GiB memory in use. Of the allocated memory 7.13 GiB is allocated by PyTorch, and 64.21 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[2026-05-18 13:22:17,762][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco/2026-05-18_13-21-07
+[2026-05-18 13:22:17,762][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-18 13:22:17,763][rl4co.utils.utils][INFO] - Closing wandb!
+[2026-05-18 13:38:31,709][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-18 13:38:31,714][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-18 13:38:31,770][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-05-18 13:38:32,338][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-05-18 13:38:32,438][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-05-18 13:38:32,450][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-05-18 13:38:32,494][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 13:38:32,495][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 13:38:32,496][__main__][INFO] - Instantiating callbacks...
+[2026-05-18 13:38:32,496][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-18 13:38:32,501][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-18 13:38:32,501][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-18 13:38:32,502][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-18 13:38:32,503][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-18 13:38:32,504][__main__][INFO] - Instantiating loggers...
+[2026-05-18 13:38:32,504][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-18 13:38:32,507][__main__][INFO] - Instantiating trainer...
+[2026-05-18 13:38:32,531][__main__][INFO] - Logging hyperparameters!
+[2026-05-18 13:38:34,298][__main__][INFO] - Starting training!
+[2026-05-18 13:38:34,401][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-05-18 13:38:34,401][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-05-18 13:38:36,362][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-05-18 13:38:36,806][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-05-18 13:38:37,103][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-05-18 13:38:37,104][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <MultiStepLR>
+[2026-05-18 13:45:23,814][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-18 13:45:23,818][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-18 13:45:23,870][__main__][INFO] - Instantiating environment <parco.envs.ffsp.FFSPEnv>
+[2026-05-18 13:45:24,422][__main__][INFO] - Instantiating model <rl4co.models.zoo.pomo.POMO>
+[2026-05-18 13:45:24,547][rl4co.models.nn.attention][INFO] - Using default scaled_dot_product_attention for PointerAttention
+[2026-05-18 13:45:24,578][rl4co.models.nn.attention][INFO] - Using default scaled_dot_product_attention for PointerAttention
+[2026-05-18 13:45:24,613][rl4co.models.nn.attention][INFO] - Using default scaled_dot_product_attention for PointerAttention
+[2026-05-18 13:45:24,992][__main__][INFO] - Instantiating callbacks...
+[2026-05-18 13:45:24,992][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-18 13:45:24,997][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-18 13:45:24,998][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-18 13:45:24,998][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-18 13:45:24,999][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-18 13:45:25,000][__main__][INFO] - Instantiating loggers...
+[2026-05-18 13:45:25,000][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-18 13:45:25,004][__main__][INFO] - Instantiating trainer...
+[2026-05-18 13:45:25,062][__main__][INFO] - Logging hyperparameters!
+[2026-05-18 13:45:26,444][__main__][INFO] - Starting training!
+[2026-05-18 13:45:26,603][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-05-18 13:45:26,604][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-05-18 13:45:26,609][rl4co.envs.common.base][WARNING] - val_file not set. Generating dataset instead
+[2026-05-18 13:45:26,610][rl4co.envs.common.base][WARNING] - test_file not set. Generating dataset instead
+[2026-05-18 13:45:26,771][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-05-18 13:45:26,772][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <CosineAnnealingLR>
+[2026-05-18 13:45:27,744][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 76, in run
+    trainer.fit(model=model, ckpt_path=cfg.get("ckpt_path"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/trainer.py", line 146, in fit
+    super().fit(
+    ~~~~~~~~~~~^
+        model=model,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        ckpt_path=ckpt_path,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1054, in _run_stage
+    self._run_sanity_check()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1083, in _run_sanity_check
+    val_loop.run()
+    ~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 145, in run
+    self._evaluation_step(batch, batch_idx, dataloader_idx, dataloader_iter)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 437, in _evaluation_step
+    output = call._call_strategy_hook(trainer, hook_name, *step_args)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 328, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 412, in validation_step
+    return self.lightning_module.validation_step(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/rl/common/base.py", line 261, in validation_step
+    return self.shared_step(
+           ~~~~~~~~~~~~~~~~^
+        batch, batch_idx, phase="val", dataloader_idx=dataloader_idx
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/zoo/pomo/model.py", line 103, in shared_step
+    out = self.policy(td, self.env, phase=phase, num_starts=n_start)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/policy.py", line 380, in forward
+    logits = model(td)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/policy.py", line 517, in forward
+    logits, _ = self.decoder(td, self.cache, num_starts=num_starts)
+                ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/decoder.py", line 75, in forward
+    glimpse_k, glimpse_v, logit_k = self._compute_kvl(cached, td)
+                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/zoo/am/decoder.py", line 155, in _compute_kvl
+    glimpse_k = glimpse_k_stat + glimpse_k_dyn
+                ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+RuntimeError: The size of tensor a (21) must match the size of tensor b (20) at non-singleton dimension 1
+[2026-05-18 13:45:27,779][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/ffsp_n20_m4/parco/2026-05-18_13-45-23
+[2026-05-18 13:45:27,780][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-18 13:45:27,780][rl4co.utils.utils][INFO] - Closing wandb!
+[2026-05-18 13:51:01,387][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-18 13:51:01,392][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-18 13:51:01,445][__main__][INFO] - Instantiating environment <parco.envs.omdcpdp.env.OMDCPDPEnv>
+[2026-05-18 13:51:01,940][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-05-18 13:51:02,046][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-05-18 13:51:02,054][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-05-18 13:51:02,092][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 13:51:02,093][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 13:51:02,094][__main__][INFO] - Instantiating callbacks...
+[2026-05-18 13:51:02,094][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-18 13:51:02,099][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-18 13:51:02,099][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-18 13:51:02,099][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-18 13:51:02,101][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-18 13:51:02,101][__main__][INFO] - Instantiating loggers...
+[2026-05-18 13:51:02,102][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-18 13:51:02,105][__main__][INFO] - Instantiating trainer...
+[2026-05-18 13:51:02,133][__main__][INFO] - Logging hyperparameters!
+[2026-05-18 13:51:03,789][__main__][INFO] - Starting training!
+[2026-05-18 13:51:03,830][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-05-18 13:51:03,830][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-05-18 13:51:05,492][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz']
+[2026-05-18 13:51:05,519][rl4co.envs.common.base][ERROR] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset val_file to generate data automatically instead
+[2026-05-18 13:51:05,638][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz']
+[2026-05-18 13:51:05,664][rl4co.envs.common.base][ERROR] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset test_file to generate data automatically instead
+[2026-05-18 13:51:06,222][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-05-18 13:51:06,223][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <MultiStepLR>
+[2026-05-18 13:59:49,456][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 13:59:51,139][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 76, in run
+    trainer.fit(model=model, ckpt_path=cfg.get("ckpt_path"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/trainer.py", line 146, in fit
+    super().fit(
+    ~~~~~~~~~~~^
+        model=model,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        ckpt_path=ckpt_path,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 217, in run
+    self.on_advance_end()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 470, in on_advance_end
+    call._call_callback_hooks(trainer, "on_train_epoch_end", monitoring_callbacks=True)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 227, in _call_callback_hooks
+    fn(trainer, trainer.lightning_module, *args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 325, in on_train_epoch_end
+    self._save_topk_checkpoint(trainer, monitor_candidates)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 383, in _save_topk_checkpoint
+    raise MisconfigurationException(m)
+lightning.fabric.utilities.exceptions.MisconfigurationException: `ModelCheckpoint(monitor='val/reward/n100_m35')` could not find the monitored key in the returned metrics: ['lr-Adam', 'train/reward', 'train/halting_ratio', 'train/loss', 'val/reward', 'val/halting_ratio', 'epoch', 'step']. HINT: Did you call `log('val/reward/n100_m35', value)` in the `LightningModule`?
+[2026-05-18 13:59:51,160][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/omdcpdp_n100_m50/parco/2026-05-18_13-51-01
+[2026-05-18 13:59:51,161][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-18 13:59:51,161][rl4co.utils.utils][INFO] - Closing wandb!
+[2026-05-18 14:11:39,340][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 14:11:51,686][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-18 14:11:51,690][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-18 14:11:51,744][__main__][INFO] - Instantiating environment <parco.envs.omdcpdp.env.OMDCPDPEnv>
+[2026-05-18 14:11:52,240][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-05-18 14:11:52,341][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-05-18 14:11:52,348][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-05-18 14:11:52,388][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 14:11:52,388][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 14:11:52,389][__main__][INFO] - Instantiating callbacks...
+[2026-05-18 14:11:52,390][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-18 14:11:52,394][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-18 14:11:52,394][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-18 14:11:52,395][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-18 14:11:52,396][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-18 14:11:52,397][__main__][INFO] - Instantiating loggers...
+[2026-05-18 14:11:52,397][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-18 14:11:52,400][__main__][INFO] - Instantiating trainer...
+[2026-05-18 14:11:52,431][__main__][INFO] - Logging hyperparameters!
+[2026-05-18 14:11:54,029][__main__][INFO] - Starting training!
+[2026-05-18 14:11:54,072][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-05-18 14:11:54,072][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-05-18 14:11:55,769][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz']
+[2026-05-18 14:11:55,797][rl4co.envs.common.base][ERROR] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset val_file to generate data automatically instead
+[2026-05-18 14:11:55,911][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz']
+[2026-05-18 14:11:55,938][rl4co.envs.common.base][ERROR] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset test_file to generate data automatically instead
+[2026-05-18 14:11:56,492][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-05-18 14:11:56,492][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <MultiStepLR>
+[2026-05-18 14:28:43,362][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 14:28:45,218][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 76, in run
+    trainer.fit(model=model, ckpt_path=cfg.get("ckpt_path"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/trainer.py", line 146, in fit
+    super().fit(
+    ~~~~~~~~~~~^
+        model=model,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        ckpt_path=ckpt_path,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 48, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 217, in run
+    self.on_advance_end()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 470, in on_advance_end
+    call._call_callback_hooks(trainer, "on_train_epoch_end", monitoring_callbacks=True)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 227, in _call_callback_hooks
+    fn(trainer, trainer.lightning_module, *args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 325, in on_train_epoch_end
+    self._save_topk_checkpoint(trainer, monitor_candidates)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/callbacks/model_checkpoint.py", line 383, in _save_topk_checkpoint
+    raise MisconfigurationException(m)
+lightning.fabric.utilities.exceptions.MisconfigurationException: `ModelCheckpoint(monitor='val/reward/n100_m35')` could not find the monitored key in the returned metrics: ['lr-Adam', 'train/reward', 'train/halting_ratio', 'train/loss', 'val/reward', 'val/halting_ratio', 'epoch', 'step']. HINT: Did you call `log('val/reward/n100_m35', value)` in the `LightningModule`?
+[2026-05-18 14:28:45,226][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/omdcpdp_n100_m50/parco/2026-05-18_14-11-51
+[2026-05-18 14:28:45,227][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-18 14:28:45,227][rl4co.utils.utils][INFO] - Closing wandb!
+[2026-05-18 14:40:06,406][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-05-18 14:40:06,412][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-05-18 14:40:06,470][__main__][INFO] - Instantiating environment <parco.envs.omdcpdp.env.OMDCPDPEnv>
+[2026-05-18 14:40:06,994][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-05-18 14:40:07,104][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-05-18 14:40:07,112][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-05-18 14:40:07,154][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 14:40:07,155][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-05-18 14:40:07,156][__main__][INFO] - Instantiating callbacks...
+[2026-05-18 14:40:07,156][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-05-18 14:40:07,161][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-05-18 14:40:07,162][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-05-18 14:40:07,162][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-05-18 14:40:07,164][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-05-18 14:40:07,164][__main__][INFO] - Instantiating loggers...
+[2026-05-18 14:40:07,164][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-05-18 14:40:07,169][__main__][INFO] - Instantiating trainer...
+[2026-05-18 14:40:07,201][__main__][INFO] - Logging hyperparameters!
+[2026-05-18 14:40:08,929][__main__][INFO] - Starting training!
+[2026-05-18 14:40:09,010][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-05-18 14:40:09,010][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-05-18 14:40:10,937][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz']
+[2026-05-18 14:40:10,966][rl4co.envs.common.base][ERROR] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset val_file to generate data automatically instead
+[2026-05-18 14:40:11,086][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz']
+[2026-05-18 14:40:11,114][rl4co.envs.common.base][ERROR] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset test_file to generate data automatically instead
+[2026-05-18 14:40:11,741][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-05-18 14:40:11,743][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <MultiStepLR>
+[2026-05-18 14:54:47,308][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 14:54:58,712][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 15:09:10,228][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 15:23:22,705][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 15:36:04,916][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 15:37:12,814][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 15:51:09,290][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 16:05:07,707][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 16:18:54,167][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 16:19:03,409][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 16:34:40,158][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 16:51:36,313][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 17:08:17,540][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 17:09:26,132][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 17:25:12,161][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 17:42:05,130][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 17:58:52,389][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 18:02:09,015][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 18:15:34,205][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 18:32:15,175][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 18:49:05,124][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 18:56:15,968][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 19:06:14,711][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 19:23:10,920][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 19:39:49,829][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 19:51:34,114][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 19:56:37,413][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 20:13:12,184][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 20:29:39,930][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 20:45:57,425][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 20:47:15,154][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 21:05:04,212][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 21:22:15,232][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 21:39:35,301][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 21:44:13,574][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 21:57:09,960][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 22:14:34,436][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 22:31:53,616][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 22:42:07,979][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 22:49:27,847][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 23:07:07,153][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 23:24:22,687][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 23:38:35,669][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 23:41:57,983][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-18 23:59:54,852][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 00:19:04,552][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 00:38:43,996][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 00:41:05,090][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 00:58:54,626][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 01:18:05,069][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 01:37:21,116][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 01:46:33,357][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 01:56:28,273][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 02:16:22,190][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 02:35:55,863][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 02:53:19,778][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 02:55:15,408][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 03:14:21,148][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 03:33:08,160][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 03:51:38,468][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 03:57:19,023][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 04:10:14,467][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 04:29:00,594][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 04:48:17,524][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 05:00:43,798][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 05:07:02,520][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 05:25:57,778][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 05:44:48,130][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 06:03:31,147][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 06:04:53,039][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 06:22:28,562][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 06:41:21,265][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 07:00:15,430][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 07:09:10,147][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 07:19:02,087][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 07:38:06,520][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 07:56:43,141][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 08:14:03,008][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 08:15:21,714][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 08:34:26,751][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 08:53:32,974][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 09:11:54,909][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 09:17:31,869][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 09:30:25,824][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 09:49:03,848][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 10:07:47,629][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 10:20:10,248][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 10:26:11,746][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 10:44:56,811][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 11:02:52,592][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 11:21:09,238][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 11:23:51,088][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 11:39:24,769][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 11:57:49,942][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 12:16:03,962][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 12:26:13,732][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 12:34:24,798][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 12:52:56,711][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 13:11:30,619][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 13:29:58,456][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 13:30:21,774][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 13:49:16,006][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 14:08:05,402][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 14:26:39,968][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 14:35:03,378][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 14:45:13,993][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 15:03:56,467][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 15:21:51,335][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 15:36:54,399][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 15:39:18,547][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 15:57:54,409][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 16:14:45,988][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 16:32:11,696][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 16:37:27,547][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 16:50:03,380][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 17:07:12,344][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 17:24:16,228][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 17:39:06,647][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 17:41:24,972][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 17:57:04,614][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 18:12:51,156][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 18:28:47,515][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 18:34:41,107][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 18:44:42,295][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 19:00:25,652][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 19:15:59,623][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 19:28:55,306][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 19:30:36,390][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 19:44:53,341][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 20:00:36,302][__main__][INFO] - Starting testing!
+[2026-05-19 20:00:36,472][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-05-19 20:00:36,473][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-05-19 20:00:38,716][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz']
+[2026-05-19 20:00:40,709][rl4co.envs.common.base][ERROR] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset val_file to generate data automatically instead
+[2026-05-19 20:00:40,891][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz']
+[2026-05-19 20:00:41,170][rl4co.envs.common.base][ERROR] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset test_file to generate data automatically instead
+[2026-05-19 20:01:19,992][__main__][INFO] - Best ckpt path: /home/athota/PARCO_2026_SRP/logs/train/runs/omdcpdp_n100_m50/parco/2026-05-18_14-40-06/checkpoints/epoch_095.ckpt
+[2026-05-19 20:01:19,993][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/omdcpdp_n100_m50/parco/2026-05-18_14-40-06
+[2026-05-19 20:01:19,993][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-05-19 20:01:19,994][rl4co.utils.utils][INFO] - Closing wandb!
+[2026-05-19 20:01:20,004][rl4co.utils.utils][INFO] - Metric name is None! Skipping metric value retrieval...
+[2026-05-19 20:21:19,670][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 21:15:41,516][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 22:13:47,356][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-19 23:08:22,914][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 00:03:38,815][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 01:07:01,135][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 02:12:07,881][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 03:20:17,044][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 04:28:48,214][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 05:35:55,733][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 06:43:19,551][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 07:51:30,848][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 08:55:07,029][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...
+[2026-05-20 10:00:33,588][rl4co.models.rl.common.base][INFO] - Generating training dataset for next epoch...

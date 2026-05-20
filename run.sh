@@ -7,16 +7,16 @@
 #SBATCH --partition=STUD
 #SBATCH --gres=gpu:2
 
-# Load modules if required by your cluster (e.g., module load python/3.10)
-# module load python
+source .venv/bin/activate
 
-# Activate the virtual environment. 
-# If you created it via Anaconda/Miniconda:
-# conda activate Parco_2026
-# If you created it via standard python venv:
-source  .venv/bin/activate
-export WANDB_API_KEY="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"
-# Run the PARCO training script.
-# You can change 'experiment=hcvrp' to 'experiment=ffsp' or 'experiment=omadap'
-srun python train.py experiment=hcvrp
-srun python test.py --problem hcvrp --decode_type sampling --batch_size 1 --sample_size 1280
+# Force wandb offline — cluster has no outbound internet
+export WANDB_MODE=offline
+export WANDB_DIR=$SLURM_SUBMIT_DIR/wandb
+
+srun python train.py experiment=hcvrp \
+    model.batch_size=16 \
+    model.val_batch_size=16 \
+    model.test_batch_size=16 \
+    +trainer.accumulate_grad_batches=8 \
+    +trainer.devices=1 \
+    ~trainer.strategy

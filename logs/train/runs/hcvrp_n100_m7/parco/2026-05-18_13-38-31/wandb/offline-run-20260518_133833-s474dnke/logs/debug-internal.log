@@ -9,3 +9,8 @@
 {"time":"2026-05-18T13:38:33.967917932+02:00","level":"INFO","msg":"writer: started","stream_id":"s474dnke"}
 {"time":"2026-05-18T13:38:33.992917577+02:00","level":"WARN","msg":"featurechecker: GraphQL client is nil, skipping feature loading"}
 {"time":"2026-05-18T13:38:33.992946494+02:00","level":"WARN","msg":"runupserter: server does not expand metric globs but the x_server_side_expand_glob_metrics setting is set; ignoring"}
+{"time":"2026-05-21T13:38:41.096920232+02:00","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2026-05-21T13:38:41.118526518+02:00","level":"INFO","msg":"stream: finishing up"}
+{"time":"2026-05-21T13:38:41.118565454+02:00","level":"INFO","msg":"handler: closed"}
+{"time":"2026-05-21T13:38:41.119248116+02:00","level":"INFO","msg":"sender: closed"}
+{"time":"2026-05-21T13:38:41.119264952+02:00","level":"INFO","msg":"stream: all finished"}

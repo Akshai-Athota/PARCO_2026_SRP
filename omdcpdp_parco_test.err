@@ -1,0 +1,44 @@
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torchrl/data/replay_buffers/samplers.py:37: UserWarning: Failed to import torchrl C++ binaries. Some modules (eg, prioritized replay buffers) may not work with your installation. This is likely due to a discrepancy between your package version and the PyTorch version. Make sure both are compatible. Usually, torchrl majors follow the pytorch majors within a few days around the release. For instance, TorchRL 0.5 requires PyTorch 2.4.0, and TorchRL 0.6 requires PyTorch 2.5.0.
+  warnings.warn(EXTENSION_WARNING)
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/utilities/parsing.py:209: Attribute 'env' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['env'])`.
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/utilities/parsing.py:209: Attribute 'policy' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['policy'])`.
+Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset val_file to generate data automatically instead
+Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset test_file to generate data automatically instead
+  0%|          | 0/100 [00:00<?, ?it/s]  0%|          | 0/100 [00:01<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/test.py", line 143, in <module>
+    out = policy(
+        td_reset,
+    ...<3 lines>...
+        return_actions=False,
+    )
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/policy.py", line 187, in forward
+    logits, mask = self.decoder(td, hidden, num_samples, do_unbatchify)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/decoder.py", line 92, in forward
+    logits = self.pointer(glimpse_q, glimpse_k, glimpse_v, logit_k, mask)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/nn/attention.py", line 294, in forward
+    heads = self._inner_mha(query, key, value, attn_mask)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/nn/attention.py", line 321, in _inner_mha
+    heads = self.sdpa_fn(q, k, v, attn_mask=attn_mask)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/nn/attention.py", line 45, in scaled_dot_product_attention_simple
+    attn_weights = F.softmax(scores, dim=-1)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/functional.py", line 2140, in softmax
+    ret = input.softmax(dim)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.20 GiB. GPU 0 has a total capacity of 7.79 GiB of which 3.93 GiB is free. Including non-PyTorch memory, this process has 3.85 GiB memory in use. Of the allocated memory 3.69 GiB is allocated by PyTorch, and 44.45 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+srun: error: stud-000: task 0: Exited with exit code 1

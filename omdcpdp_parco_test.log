@@ -1,3 +1,53 @@
 Loading checkpoint from  logs/train/runs/omdcpdp_n100_m50/parco/2026-05-18_14-40-06/checkpoints/epoch_095.ckpt
 Loading checkpoint from  logs/train/runs/omdcpdp_n100_m50/parco/2026-05-18_14-40-06/checkpoints/epoch_095.ckpt
 Loading ./data/omdcpdp/n1000_m100_seed3333.npz
+Average cost: 736.7036
+Per step inference time: 0.0677s
+Total inference time: 3.3863s
+Average eval steps: 15.10
+Loading ./data/omdcpdp/n1000_m150_seed3333.npz
+Average cost: 549.8815
+Per step inference time: 0.0404s
+Total inference time: 2.0214s
+Average eval steps: 11.60
+Loading ./data/omdcpdp/n1000_m200_seed3333.npz
+Average cost: 458.7651
+Per step inference time: 0.0357s
+Total inference time: 1.7872s
+Average eval steps: 9.96
+Loading ./data/omdcpdp/n100_m10_seed3333.npz
+Average cost: 86.7318
+Per step inference time: 0.0424s
+Total inference time: 21.2065s
+Average eval steps: 13.77
+Loading ./data/omdcpdp/n100_m15_seed3333.npz
+Average cost: 63.8791
+Per step inference time: 0.0308s
+Total inference time: 15.3934s
+Average eval steps: 9.79
+Loading ./data/omdcpdp/n100_m20_seed3333.npz
+Average cost: 52.5553
+Per step inference time: 0.0260s
+Total inference time: 13.0190s
+Average eval steps: 8.18
+Loading ./data/omdcpdp/n500_m100_seed3333.npz
+Average cost: 234.5616
+Per step inference time: 0.0292s
+Total inference time: 1.4592s
+Average eval steps: 8.82
+Loading ./data/omdcpdp/n500_m50_seed3333.npz
+Average cost: 380.1995
+Per step inference time: 0.0449s
+Total inference time: 2.2466s
+Average eval steps: 14.12
+Loading ./data/omdcpdp/n500_m75_seed3333.npz
+Average cost: 282.4741
+Per step inference time: 0.0347s
+Total inference time: 1.7358s
+Average eval steps: 10.68
+Loading ./data/omdcpdp/n50_m10_seed3333.npz
+Average cost: 28.3694
+Per step inference time: 0.0258s
+Total inference time: 12.9146s
+Average eval steps: 8.13
+Loading ./data/omdcpdp/n50_m5_seed3333.npz

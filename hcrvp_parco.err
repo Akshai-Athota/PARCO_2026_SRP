@@ -45,3 +45,40 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
 SLURM auto-requeueing enabled. Setting signal handlers.
 /home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:425: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
 /home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:425: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+`Trainer.fit` stopped: `max_epochs=100` reached.
+Restoring states from the checkpoint path at /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco/2026-05-23_04-14-55/checkpoints/epoch_099.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Loaded model weights from the checkpoint at /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco/2026-05-23_04-14-55/checkpoints/epoch_099.ckpt
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:216: Using `DistributedSampler` with the dataloaders. During `trainer.test()`, it is recommended to use `Trainer(devices=1, num_nodes=1)` to ensure each sample/batch gets evaluated exactly once. Otherwise, multi-device settings use `DistributedSampler` that replicates some samples to make sure all devices have same batch size in case of uneven inputs.
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:425: The 'test_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+wandb: 
+wandb: Run history:
+wandb:                      epoch ▁▁▁▁▁▂▂▃▃▃▃▃▃▃▃▃▃▃▄▄▄▅▅▅▅▅▅▅▅▅▆▆▆▆▇▇▇███
+wandb:                    lr-Adam ██████████████████████████████▂▂▂▂▂▂▂▁▁▁
+wandb: test/halting_ratio/n100_m3 ▁
+wandb: test/halting_ratio/n100_m5 ▁
+wandb: test/halting_ratio/n100_m7 ▁
+wandb:  test/halting_ratio/n60_m3 ▁
+wandb:  test/halting_ratio/n60_m5 ▁
+wandb:  test/halting_ratio/n60_m7 ▁
+wandb:  test/halting_ratio/n80_m3 ▁
+wandb:  test/halting_ratio/n80_m5 ▁
+wandb:                        +35 ...
+wandb: 
+wandb: Run summary:
+wandb:                      epoch 100
+wandb:                    lr-Adam 0.0
+wandb: test/halting_ratio/n100_m3 0.03628
+wandb: test/halting_ratio/n100_m5 0.03711
+wandb: test/halting_ratio/n100_m7 0.04021
+wandb:  test/halting_ratio/n60_m3 0.03984
+wandb:  test/halting_ratio/n60_m5 0.04714
+wandb:  test/halting_ratio/n60_m7 0.05731
+wandb:  test/halting_ratio/n80_m3 0.03638
+wandb:  test/halting_ratio/n80_m5 0.03963
+wandb:                        +35 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco/2026-05-23_04-14-55/wandb/offline-run-20260523_041459-r621yvjd
+wandb: Find logs at: ./logs/train/runs/hcvrp_n100_m7/parco/2026-05-23_04-14-55/wandb/offline-run-20260523_041459-r621yvjd/logs

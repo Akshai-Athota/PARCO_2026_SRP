@@ -51,3 +51,12 @@ Per step inference time: 0.0258s
 Total inference time: 12.9146s
 Average eval steps: 8.13
 Loading ./data/omdcpdp/n50_m5_seed3333.npz
+Average cost: 47.3576
+Per step inference time: 0.0430s
+Total inference time: 21.4918s
+Average eval steps: 13.99
+Loading ./data/omdcpdp/n50_m7_seed3333.npz
+Average cost: 36.4604
+Per step inference time: 0.0319s
+Total inference time: 15.9546s
+Average eval steps: 10.20

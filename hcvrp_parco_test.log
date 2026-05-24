@@ -1,0 +1,62 @@
+Loading checkpoint from  logs/train/runs/hcvrp_n100_m7/parco/2026-05-23_04-14-55/checkpoints/last.ckpt
+Loading checkpoint from  logs/train/runs/hcvrp_n100_m7/parco/2026-05-23_04-14-55/checkpoints/last.ckpt
+Loading ./data/hcvrp/n100_m3_seed24610.npz
+Average cost: 11.6249
+Per step inference time: 0.3262s
+Total inference time: 3.2622s
+Average eval steps: 92.10
+Loading ./data/hcvrp/n100_m5_seed24610.npz
+Average cost: 7.0567
+Per step inference time: 0.2386s
+Total inference time: 2.3859s
+Average eval steps: 87.90
+Loading ./data/hcvrp/n100_m7_seed24610.npz
+Average cost: 5.1753
+Per step inference time: 0.2368s
+Total inference time: 2.3675s
+Average eval steps: 85.50
+Loading ./data/hcvrp/n40_m3_seed24610.npz
+Average cost: 5.7738
+Per step inference time: 0.1166s
+Total inference time: 1.1656s
+Average eval steps: 43.40
+Loading ./data/hcvrp/n40_m5_seed24610.npz
+Average cost: 3.6996
+Per step inference time: 0.1082s
+Total inference time: 1.0820s
+Average eval steps: 40.20
+Loading ./data/hcvrp/n40_m7_seed24610.npz
+Average cost: 3.0312
+Per step inference time: 0.1034s
+Total inference time: 1.0342s
+Average eval steps: 38.00
+Loading ./data/hcvrp/n60_m3_seed24610.npz
+Average cost: 7.6061
+Per step inference time: 0.1619s
+Total inference time: 1.6187s
+Average eval steps: 60.50
+Loading ./data/hcvrp/n60_m5_seed24610.npz
+Average cost: 4.7851
+Per step inference time: 0.1546s
+Total inference time: 1.5458s
+Average eval steps: 57.30
+Loading ./data/hcvrp/n60_m7_seed24610.npz
+Average cost: 3.6342
+Per step inference time: 0.1440s
+Total inference time: 1.4400s
+Average eval steps: 53.10
+Loading ./data/hcvrp/n80_m3_seed24610.npz
+Average cost: 9.6724
+Per step inference time: 0.2042s
+Total inference time: 2.0423s
+Average eval steps: 76.20
+Loading ./data/hcvrp/n80_m5_seed24610.npz
+Average cost: 5.9258
+Per step inference time: 0.1988s
+Total inference time: 1.9882s
+Average eval steps: 74.00
+Loading ./data/hcvrp/n80_m7_seed24610.npz
+Average cost: 4.4151
+Per step inference time: 0.1916s
+Total inference time: 1.9158s
+Average eval steps: 70.40

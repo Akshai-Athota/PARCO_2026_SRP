@@ -50,6 +50,7 @@ class PARCOPolicy(nn.Module):
         train_decode_type: str = "sampling",
         val_decode_type: str = "greedy",
         test_decode_type: str = "greedy",
+        group_size: int = None,
         agent_handler="highprob",  # Agent handler
         agent_handler_kwargs: dict = {},  # Agent handler kwargs
         use_init_logp: bool = True,  # Return initial logp for actions even with conflicts
@@ -122,6 +123,7 @@ class PARCOPolicy(nn.Module):
         # self.two_stage_pos_sampling = two_stage_pos_sampling
         self.mask_handled = mask_handled
         self.use_init_logp = use_init_logp
+        self.group_size = group_size
 
     def forward(
         self,
@@ -145,6 +147,9 @@ class PARCOPolicy(nn.Module):
             decode_type = "evaluate"
         elif decode_type is None:
             decode_type = getattr(self, f"{phase}_decode_type")
+        
+        if self.group_size is not None and "group" in decode_type:
+            decoding_kwargs.setdefault("group_size", self.group_size)
 
         # When decode_type is sampling, we need to know the number of samples
         num_samples = decoding_kwargs.pop("num_samples", 1)

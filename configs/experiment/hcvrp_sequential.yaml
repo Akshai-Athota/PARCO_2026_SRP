@@ -1,0 +1,14 @@
+# @package _global_
+defaults:
+  - hcvrp.yaml   
+
+model:
+  policy:
+    train_decode_type: "group_sampling"   
+    val_decode_type: "group_greedy"       
+    test_decode_type: "group_greedy"      
+    group_size: 1                         
+
+logger:
+  wandb:
+    name: "parco_sequential"

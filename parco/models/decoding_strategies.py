@@ -518,6 +518,194 @@ class GroupSampling(GroupDecoding):
         )
 
 
+class FFSPGroupDecoding(GroupDecoding):
+    """`GroupDecoding` adapted to FFSP's job/machine/wait action space, for
+    SRP Idea 1 (Full PAR <-> PAR-k <-> Full AR, same checkpoint, zero
+    retraining).
+
+    In FFSP the last logit column (index `num_job`) is a *shared* wait
+    action: any number of idle machines may select it in the same round
+    with no real conflict, unlike a real job (which only one machine can
+    claim). `GroupDecoding` assumes every action index is an exclusive
+    resource, so reusing it unmodified for FFSP would (a) flag simultaneous
+    "wait" picks as spurious conflicts, and (b) once any machine in an
+    earlier sub-group commits to "wait", incorrectly close the wait action
+    off for machines decided in a later sub-group of the same round. Both
+    are fixed below; grouping, greedy/sampling selection, and cross-group
+    closing of real jobs are otherwise identical to `GroupDecoding`.
+    """
+
+    def __init__(
+        self,
+        num_agents: int,
+        num_job: int,
+        group_size: int = 1,
+        is_greedy: bool = False,
+        **kwargs,
+    ) -> None:
+        super().__init__(
+            num_agents=num_agents, group_size=group_size, is_greedy=is_greedy, **kwargs
+        )
+        self.num_job = num_job
+
+    def step(
+        self,
+        logits: torch.Tensor,
+        mask: torch.Tensor,
+        td: TensorDict = None,
+        agent_handler_kwargs: dict = {},
+        **kwargs,
+    ) -> TensorDict:
+        self.iter_count += 1
+
+        logprobs = process_logits(
+            logits,
+            mask,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            tanh_clipping=self.tanh_clipping,
+        )
+
+        batch_size, num_agents, _num_targets = logprobs.shape
+        device = logprobs.device
+
+        replacement_value = td[self.replacement_value_key]
+        if replacement_value.dim() == 1:
+            replacement_value = replacement_value.unsqueeze(1).expand(-1, num_agents)
+        elif replacement_value.size(1) != num_agents:
+            replacement_value = replacement_value.expand(-1, num_agents)
+
+        actions = replacement_value.clone()
+        step_logprobs = torch.zeros(batch_size, num_agents, device=device)
+        handling_mask = torch.zeros(
+            batch_size, num_agents, dtype=torch.bool, device=device
+        )
+
+        # Node availability, progressively closed off as earlier groups
+        # commit to a *real* job (wait is never closed off, see below)
+        remaining_mask = mask.clone()
+        b_idx = torch.arange(batch_size, device=device)
+
+        for start in range(0, num_agents, self.group_size):
+            idx = list(range(start, min(start + self.group_size, num_agents)))
+
+            group_mask = remaining_mask[:, idx, :].clone()
+            group_logits_raw = logprobs[:, idx, :].clone()
+
+            # Same degenerate-case handling as GroupDecoding: a machine can
+            # end up with zero valid targets this round purely because
+            # earlier groups already claimed every job it could still
+            # reach. Give it its usual fallback: wait this round (the
+            # fallback column is normally masked out of the true action
+            # space here too, so give it a finite logit to select).
+            has_valid = group_mask.any(dim=-1)
+            if not has_valid.all():
+                fallback_col = replacement_value[:, idx]
+                deg_b, deg_a = (~has_valid).nonzero(as_tuple=True)
+                group_mask[deg_b, deg_a, fallback_col[deg_b, deg_a]] = True
+                group_logits_raw[deg_b, deg_a, fallback_col[deg_b, deg_a]] = 0.0
+
+            group_logprobs = group_logits_raw.masked_fill(~group_mask, -torch.inf)
+
+            group_actions = (
+                self.greedy(group_logprobs, group_mask)
+                if self.is_greedy
+                else self.sampling(group_logprobs, group_mask)
+            )
+
+            if len(idx) == 1:
+                # A single machine cannot conflict with itself: skip the
+                # agent_handler entirely, same as GroupDecoding.
+                group_resolved = group_actions
+                group_handling_mask = torch.zeros_like(group_actions, dtype=torch.bool)
+            else:
+                group_replacement = replacement_value[:, idx]
+                group_resolved, group_handling_mask, _ = self.agent_handler(
+                    group_actions.clone(),
+                    group_replacement,
+                    td,
+                    probs=group_logprobs.clone(),
+                    **agent_handler_kwargs,
+                )
+                if group_handling_mask is None:
+                    group_handling_mask = torch.zeros_like(
+                        group_actions, dtype=torch.bool
+                    )
+                # Picking "wait" can never be a genuine conflict (it's a
+                # shared action, not an exclusive resource): un-flag any
+                # machine whose own proposal was wait, even if the handler
+                # matched it against another machine that also proposed
+                # wait (its resolved action is wait either way).
+                group_handling_mask = group_handling_mask & (
+                    group_actions != self.num_job
+                )
+
+            actions[:, idx] = group_resolved
+            gather_from = group_actions if self.use_init_logp else group_resolved
+            step_logprobs[:, idx] = gather_by_index(group_logprobs, gather_from, dim=-1)
+            handling_mask[:, idx] = group_handling_mask
+
+            # Close off the real jobs this group actually committed to, so
+            # later groups cannot pick them. "wait" is excluded from this:
+            # it must stay available to every machine regardless of how
+            # many earlier machines this round already chose it.
+            committed = ~group_handling_mask
+            if committed.any():
+                sel_b = b_idx.unsqueeze(1).expand(-1, len(idx))[committed]
+                sel_n = group_resolved[committed]
+                real_job = sel_n != self.num_job
+                sel_b, sel_n = sel_b[real_job], sel_n[real_job]
+                if sel_b.numel() > 0:
+                    remaining_mask[sel_b, :, sel_n] = False
+
+        if self.mask_handled:
+            step_logprobs = step_logprobs.masked_fill(handling_mask, 0)
+
+        if self.store_handling_mask:
+            self.handling_masks.append(handling_mask)
+        halting_ratio = handling_mask.float().mean()
+        self.halting_ratios.append(halting_ratio)
+
+        td.set("action", actions)
+        self.actions.append(actions)
+        self.logprobs.append(step_logprobs)
+        return td
+
+    def _step(self, logprobs, mask, td, action=None, **kwargs):
+        pass
+
+
+class FFSPGroupGreedy(FFSPGroupDecoding):
+    name = "ffsp_group_greedy"
+
+    def __init__(
+        self, num_agents: int, num_job: int, group_size: int = 1, **kwargs
+    ) -> None:
+        super().__init__(
+            num_agents=num_agents,
+            num_job=num_job,
+            group_size=group_size,
+            is_greedy=True,
+            **kwargs,
+        )
+
+
+class FFSPGroupSampling(FFSPGroupDecoding):
+    name = "ffsp_group_sampling"
+
+    def __init__(
+        self, num_agents: int, num_job: int, group_size: int = 1, **kwargs
+    ) -> None:
+        super().__init__(
+            num_agents=num_agents,
+            num_job=num_job,
+            group_size=group_size,
+            is_greedy=False,
+            **kwargs,
+        )
+
+
 class Evaluate(PARCODecodingStrategy):
     name = "evaluate"
 

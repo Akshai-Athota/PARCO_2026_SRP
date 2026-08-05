@@ -10,6 +10,8 @@ from tensordict import TensorDict
 from .agent_handlers import get_agent_handler
 from .decoder import MatNetDecoder, PARCODecoder
 from .decoding_strategies import (
+    FFSPGroupGreedy,
+    FFSPGroupSampling,
     PARCO4FFSPDecoding,
     PARCODecodingStrategy,
     parco_get_decoding_strategy,
@@ -264,6 +266,7 @@ class PARCOMultiStagePolicy(nn.Module):
         train_decode_type: str = "sampling",
         val_decode_type: str = "sampling",
         test_decode_type: str = "sampling",
+        group_size: int = None,  # SRP Idea 1: fixed group size for group_greedy/group_sampling (1 = Full AR)
         agent_handler=None,  # Agent handler
         agent_handler_kwargs: dict = {},  # Agent handler kwargs
         use_init_logp: bool = False,  # Return initial logp for actions even with conflicts
@@ -277,6 +280,7 @@ class PARCOMultiStagePolicy(nn.Module):
         self.use_pos_token = use_pos_token
         self.mask_handled = mask_handled
         self.use_init_logp = use_init_logp
+        self.group_size = group_size
 
         if agent_handler is not None:
             if isinstance(agent_handler, str):
@@ -321,7 +325,9 @@ class PARCOMultiStagePolicy(nn.Module):
         self.val_decode_type = val_decode_type
         self.test_decode_type = test_decode_type
 
-    def pre_forward(self, td: TensorDict, env, num_starts: int, decode_type):
+    def pre_forward(
+        self, td: TensorDict, env, num_starts: int, decode_type, group_size: int = None
+    ):
         # exclude the dummy node and split into stage tables
         n_agents = td["job_duration"].size(-1)
         num_jobs = td["job_duration"].size(-2) - 1
@@ -338,19 +344,39 @@ class PARCOMultiStagePolicy(nn.Module):
         # update machine idx and action mask
         td = env.pre_step(td)
 
-        self.decode_strategy: PARCODecodingStrategy = parco_get_decoding_strategy(
-            decode_type,
-            num_agents=n_agents,
-            agent_handler=self.agent_handler,
-            use_init_logp=self.use_init_logp,
-            mask_handled=self.mask_handled,
-            replacement_value_key="wait_action",
-            tanh_clipping=10,
-        )
+        # n_agents above is the TOTAL machine count across all stages;
+        # decode_strategy.step() is called once per stage with tensors
+        # shaped [B, n_stage_agents, ...], so that's what group_size/
+        # num_agents need to refer to below.
+        n_stage_agents = n_agents // self.stage_cnt
 
-        self.decode_strategy = PARCO4FFSPDecoding(
-            num_ma=n_agents, num_job=num_jobs, tanh_clipping=10, use_pos_token=True
-        )
+        if decode_type in ("group_greedy", "group_sampling"):
+            # SRP Idea 1: Full PAR <-> PAR-k <-> Full AR decode spectrum on
+            # the SAME trained checkpoint, zero retraining. group_size=None
+            # defaults to the whole stage (Full PAR, all machines in the
+            # stage propose at once, conflicts resolved by agent_handler);
+            # group_size=1 gives Full AR (one machine at a time this round,
+            # no conflicts possible by construction).
+            strategy_cls = (
+                FFSPGroupGreedy if decode_type == "group_greedy" else FFSPGroupSampling
+            )
+            self.decode_strategy: PARCODecodingStrategy = strategy_cls(
+                num_agents=n_stage_agents,
+                num_job=num_jobs,
+                group_size=group_size if group_size is not None else n_stage_agents,
+                agent_handler=self.agent_handler,
+                use_init_logp=self.use_init_logp,
+                mask_handled=self.mask_handled,
+                replacement_value_key="wait_action",
+                tanh_clipping=10,
+            )
+        else:
+            # Original PARCO-FFSP decoding (unchanged default): fully
+            # sequential, one (job, machine) pair committed at a time from
+            # the flattened joint logits, no conflicts possible.
+            self.decode_strategy = PARCO4FFSPDecoding(
+                num_ma=n_agents, num_job=num_jobs, tanh_clipping=10, use_pos_token=True
+            )
 
         return td
 
@@ -364,10 +390,17 @@ class PARCOMultiStagePolicy(nn.Module):
         return_sum_log_likelihood: bool = True,
         **decoder_kwargs,
     ):
-        # Get decode type depending on phase
-        decode_type = getattr(self, f"{phase}_decode_type")
+        # Get decode type depending on phase, allowing an explicit override
+        # (e.g. for SRP Idea 1 zero-retraining evaluation across decode
+        # modes without re-instantiating the policy per mode)
+        decode_type = decoder_kwargs.pop("decode_type", None) or getattr(
+            self, f"{phase}_decode_type"
+        )
+        group_size = decoder_kwargs.pop("group_size", None)
+        if group_size is None:
+            group_size = self.group_size
 
-        td = self.pre_forward(td, env, num_starts, decode_type)
+        td = self.pre_forward(td, env, num_starts, decode_type, group_size=group_size)
 
         # NOTE: this must come after pre_forward due to batchify op
         # collect some data statistics

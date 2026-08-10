@@ -1,0 +1,19 @@
+# @package _global_
+# SRP Idea 2: extend tanh clipping to the encoder's attention logits
+# (QK^T/sqrt(d), before softmax) in addition to the decoder's action
+# logits. Decoder-logit clipping is left at its default (scaled form,
+# C=10); only the new attention-logit clipping is turned on here.
+# Sweep C or clip_mode on the CLI, e.g.:
+#   python train.py experiment=hcvrp_tanh_attn model.policy.attn_tanh_clipping=5
+#   python train.py experiment=hcvrp_tanh_attn model.policy.attn_clip_mode=fixed
+defaults:
+  - hcvrp.yaml
+
+model:
+  policy:
+    attn_tanh_clipping: 10
+    attn_clip_mode: "scaled"
+
+logger:
+  wandb:
+    name: "parco_tanh_attn_c${model.policy.attn_tanh_clipping}_${model.policy.attn_clip_mode}"

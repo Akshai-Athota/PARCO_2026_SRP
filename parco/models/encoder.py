@@ -7,6 +7,7 @@ from tensordict import TensorDict
 from torch import Tensor
 
 from parco.models.env_embeddings import env_init_embedding
+from parco.models.nn.attention import make_clipped_sdpa_fn
 from parco.models.nn.matnet import MatNetLayer
 from parco.models.nn.transformer import Normalization, TransformerBlock
 
@@ -25,6 +26,8 @@ class PARCOEncoder(nn.Module):
         norm_after: bool = False,
         use_pos_token: bool = False,
         trainable_pos_token: bool = True,
+        attn_tanh_clipping: float = 0.0,  # SRP Idea 2: clip encoder MHA attention logits before softmax. 0 = off (default, matches prior behavior)
+        attn_clip_mode: str = "scaled",  # SRP Idea 2: "fixed" C*tanh(z) vs "scaled" C*tanh(z/C)
         **transformer_kwargs,
     ):
         super(PARCOEncoder, self).__init__()
@@ -37,6 +40,15 @@ class PARCOEncoder(nn.Module):
             else env_init_embedding(self.env_name, init_embedding_kwargs)
         )
 
+        # SRP Idea 2: only build a custom (non-fused) sdpa_fn when attention
+        # clipping is actually requested. Passing None preserves the exact
+        # prior behavior (PyTorch's fused scaled_dot_product_attention).
+        attn_sdpa_fn = (
+            make_clipped_sdpa_fn(attn_tanh_clipping, attn_clip_mode)
+            if attn_tanh_clipping
+            else None
+        )
+
         self.layers = nn.Sequential(
             *(
                 TransformerBlock(
@@ -44,6 +56,7 @@ class PARCOEncoder(nn.Module):
                     num_heads=num_heads,
                     normalization=normalization,
                     norm_after=norm_after,
+                    sdpa_fn=attn_sdpa_fn,
                     **transformer_kwargs,
                 )
                 for _ in range(num_layers)

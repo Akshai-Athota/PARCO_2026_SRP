@@ -1,6 +1,61 @@
 import torch
+import torch.nn.functional as F
 
+from rl4co.utils.decoding import (
+    modify_logits_for_top_k_filtering,
+    modify_logits_for_top_p_filtering,
+)
 from rl4co.utils.ops import gather_by_index
+
+
+def tanh_clip(logits: torch.Tensor, clip_value: float, clip_mode: str = "scaled"):
+    """SRP Idea 2: two tanh-clipping functional forms for a value C.
+
+        fixed:  phi_fixed(z; C)  = C * tanh(z)        -- saturates for |z| >> 1
+        scaled: phi_scaled(z; C) = C * tanh(z / C)     -- near-linear for |z| << C
+
+    `clip_value <= 0` (or None) disables clipping and returns logits unchanged.
+    """
+    if not clip_value:
+        return logits
+    if clip_mode == "fixed":
+        return clip_value * torch.tanh(logits)
+    elif clip_mode == "scaled":
+        return clip_value * torch.tanh(logits / clip_value)
+    raise ValueError(f"Unknown tanh clip_mode {clip_mode!r}, expected 'fixed' or 'scaled'")
+
+
+def parco_process_logits(
+    logits: torch.Tensor,
+    mask: torch.Tensor = None,
+    temperature: float = 1.0,
+    top_p: float = 0.0,
+    top_k: int = 0,
+    tanh_clipping: float = 0.0,
+    clip_mode: str = "scaled",
+    mask_logits: bool = True,
+):
+    """Same as `rl4co.utils.decoding.process_logits`, except the tanh-clipping
+    functional form is switchable (SRP Idea 2: fixed vs scaled). Kept local to
+    `parco/` instead of monkey-patching the installed rl4co dependency."""
+    if tanh_clipping > 0:
+        logits = tanh_clip(logits, tanh_clipping, clip_mode)
+
+    if mask_logits:
+        assert mask is not None, "mask must be provided if mask_logits is True"
+        logits[~mask] = float("-inf")
+
+    logits = logits / temperature  # temperature scaling
+
+    if top_k > 0:
+        top_k = min(top_k, logits.size(-1))
+        logits = modify_logits_for_top_k_filtering(logits, top_k)
+
+    if top_p > 0:
+        assert top_p <= 1.0, "top-p should be in (0, 1]."
+        logits = modify_logits_for_top_p_filtering(logits, top_p)
+
+    return F.log_softmax(logits, dim=-1)
 
 
 def replace_key_td(td, key, replacement):

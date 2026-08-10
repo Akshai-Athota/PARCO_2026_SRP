@@ -7,10 +7,11 @@ import torch.nn.functional as F
 
 from einops import rearrange
 from rl4co.envs import RL4COEnvBase
-from rl4co.utils.decoding import process_logits
 from rl4co.utils.ops import batchify, gather_by_index, unbatchify, unbatchify_and_gather
 from rl4co.utils.pylogger import get_pylogger
 from tensordict.tensordict import TensorDict
+
+from .utils import parco_process_logits, tanh_clip
 
 log = get_pylogger(__name__)
 
@@ -51,6 +52,7 @@ class PARCODecodingStrategy(metaclass=abc.ABCMeta):
         top_p: float = 0.0,
         top_k: int = 0,
         tanh_clipping: float = 10.0,
+        tanh_clip_mode: str = "scaled",  # SRP Idea 2: "fixed" C*tanh(z) vs "scaled" C*tanh(z/C)
         multistart: bool = False,
         multisample: bool = False,
         num_samples: int = 1,
@@ -84,6 +86,7 @@ class PARCODecodingStrategy(metaclass=abc.ABCMeta):
         self.top_p = top_p
         self.top_k = top_k
         self.tanh_clipping = tanh_clipping
+        self.tanh_clip_mode = tanh_clip_mode
         if multistart:
             raise ValueError("Multistart is not supported for multi-agent decoding")
         self.multistart = multistart
@@ -165,13 +168,14 @@ class PARCODecodingStrategy(metaclass=abc.ABCMeta):
     ) -> TensorDict:
         self.iter_count += 1
 
-        logprobs = process_logits(
+        logprobs = parco_process_logits(
             logits,
             mask,
             temperature=self.temperature,
             top_p=self.top_p,
             top_k=self.top_k,
             tanh_clipping=self.tanh_clipping,
+            clip_mode=self.tanh_clip_mode,
         )
 
         logprobs, actions, td = self._step(logprobs, mask, td, **kwargs)
@@ -288,9 +292,9 @@ class SequentialSampling(PARCODecodingStrategy):
         
         batch_size, num_agents, num_targets = logits.shape
         
-        # Apply Tanh logit clipping (Gemma 2 style)
+        # Apply Tanh logit clipping (SRP Idea 2: fixed vs scaled form)
         if self.tanh_clipping > 0:
-            logits = self.tanh_clipping * torch.tanh(logits / self.tanh_clipping)
+            logits = tanh_clip(logits, self.tanh_clipping, self.tanh_clip_mode)
 
         # Clone mask because we'll modify it dynamically during the loop
         step_mask = mask.clone()
@@ -396,13 +400,14 @@ class GroupDecoding(PARCODecodingStrategy):
 
         # Same logit processing (temperature/top-p/top-k/tanh clipping) as
         # every other strategy, so comparisons only differ in decoding order
-        logprobs = process_logits(
+        logprobs = parco_process_logits(
             logits,
             mask,
             temperature=self.temperature,
             top_p=self.top_p,
             top_k=self.top_k,
             tanh_clipping=self.tanh_clipping,
+            clip_mode=self.tanh_clip_mode,
         )
 
         batch_size, num_agents, _num_targets = logprobs.shape
@@ -558,13 +563,14 @@ class FFSPGroupDecoding(GroupDecoding):
     ) -> TensorDict:
         self.iter_count += 1
 
-        logprobs = process_logits(
+        logprobs = parco_process_logits(
             logits,
             mask,
             temperature=self.temperature,
             top_p=self.top_p,
             top_k=self.top_k,
             tanh_clipping=self.tanh_clipping,
+            clip_mode=self.tanh_clip_mode,
         )
 
         batch_size, num_agents, _num_targets = logprobs.shape

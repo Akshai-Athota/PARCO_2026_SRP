@@ -39,6 +39,14 @@ if __name__ == "__main__":
         help="Number of samples to use for sampling decoding",
     )
     parser.add_argument("--batch_size", type=int, default=1)
+    parser.add_argument(
+        "--group_size",
+        type=int,
+        default=None,
+        help="Only used with --decode_type group_greedy/group_sampling. "
+        "1 = Full AR (fully sequential, no conflicts possible). If not set, "
+        "falls back to whatever group_size the checkpoint was trained with.",
+    )
     parser.add_argument("--checkpoint", type=str, default=None)
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument(
@@ -116,13 +124,25 @@ if __name__ == "__main__":
         env = FFSPEnv()
     policy = model.policy.to(device).eval()  # Use mixed precision if supported
 
+    # Only pass group_size if explicitly requested: passing group_size=None
+    # explicitly (rather than omitting it) would short-circuit the policy's
+    # own fallback to whatever group_size it was trained with.
+    policy_kwargs = {}
+    if opts.group_size is not None:
+        policy_kwargs["group_size"] = opts.group_size
+
     # Compile the model - this will take more time but will speed up inference
     # Can help for reporting better inference times (which is the business use case)
     if opts.compile:
         print("Compiling the model")
         with torch.inference_mode():
             # dummy pass
-            policy(env.reset(env.generator(1)).to(device), env, decode_type=decode_type)
+            policy(
+                env.reset(env.generator(1)).to(device),
+                env,
+                decode_type=decode_type,
+                **policy_kwargs,
+            )
 
     for dataset in data_paths:
         costs = []
@@ -146,10 +166,13 @@ if __name__ == "__main__":
                         decode_type=decode_type,
                         num_samples=sample_size,
                         return_actions=False,
+                        **policy_kwargs,
                     )
                     end_time = time.time()
                     inference_time = end_time - start_time
-                    if decode_type == "greedy":
+                    if sample_size is None or sample_size == 1:
+                        # Single deterministic/single-sample rollout per
+                        # instance: greedy, group_greedy, sequential, etc.
                         costs.extend(-out["reward"])
                     else:
                         costs.extend(

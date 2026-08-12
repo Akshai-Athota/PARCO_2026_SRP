@@ -1,0 +1,17 @@
+# @package _global_
+# SRP Idea 1: full sequential (Full AR) decoding -- one agent committed at a
+# time, zero retraining tricks, same model/architecture, only the decode
+# strategy + group_size change relative to plain hcvrp.yaml.
+defaults:
+  - hcvrp.yaml
+
+model:
+  policy:
+    train_decode_type: "group_sampling"
+    val_decode_type: "group_greedy"
+    test_decode_type: "group_greedy"
+    group_size: 1
+
+logger:
+  wandb:
+    name: "parco_sequential"

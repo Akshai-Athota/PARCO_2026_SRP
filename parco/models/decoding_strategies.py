@@ -20,6 +20,8 @@ def parco_get_decoding_strategy(decoding_strategy, **config):
         "greedy": Greedy,
         "sampling": Sampling,
         "evaluate": Evaluate,
+        "group_greedy": GroupGreedy,
+        "group_sampling": GroupSampling,
     }
 
     if "multistart" in decoding_strategy:
@@ -280,6 +282,170 @@ class Evaluate(PARCODecodingStrategy):
         """The action is provided externally, so we just return the action"""
         selected = action
         return logprobs, selected, td
+
+
+class GroupDecoding(PARCODecodingStrategy):
+    """Decode the M agents in sequential groups of `group_size`, using the
+    logits from a single decoder forward pass (same trained checkpoint,
+    zero retraining, zero model changes).
+
+    Within a group, agents propose actions independently and in parallel
+    (like Full PAR) and any conflicts are resolved by the usual
+    `agent_handler`. Once a group commits, the nodes it consumed are masked
+    out for every group decided afterwards, so there can be no conflict
+    *across* groups.
+
+    This interpolates between the two extremes studied in Idea 1:
+        - group_size == num_agents -> identical to Full PAR (single group,
+          conflicts possible, O(T/M) steps)
+        - group_size == 1          -> Full AR (one agent at a time, no
+          conflicts by construction, O(T) steps)
+        - 1 < group_size < num_agents -> e.g. PAR-2, PAR-4
+    """
+
+    name = "group"
+
+    def __init__(
+        self, num_agents: int, group_size: int = 1, is_greedy: bool = False, **kwargs
+    ) -> None:
+        super().__init__(num_agents=num_agents, **kwargs)
+        if self.store_all_logp:
+            raise ValueError("store_all_logp is not supported by GroupDecoding")
+        self.group_size = max(1, min(group_size, num_agents))
+        self.is_greedy = is_greedy
+
+    def step(
+        self,
+        logits: torch.Tensor,
+        mask: torch.Tensor,
+        td: TensorDict = None,
+        agent_handler_kwargs: dict = {},
+        **kwargs,
+    ) -> TensorDict:
+        self.iter_count += 1
+
+        # Same logit processing (temperature/top-p/top-k/tanh clipping) as
+        # every other strategy, so comparisons only differ in decoding order
+        logprobs = process_logits(
+            logits,
+            mask,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            top_k=self.top_k,
+            tanh_clipping=self.tanh_clipping,
+        )
+
+        batch_size, num_agents, _num_targets = logprobs.shape
+        device = logprobs.device
+
+        replacement_value = td[self.replacement_value_key]
+        if replacement_value.dim() == 1:
+            replacement_value = replacement_value.unsqueeze(1).expand(-1, num_agents)
+        elif replacement_value.size(1) != num_agents:
+            replacement_value = replacement_value.expand(-1, num_agents)
+
+        actions = replacement_value.clone()
+        actions_init = replacement_value.clone()
+        step_logprobs = torch.zeros(batch_size, num_agents, device=device)
+        handling_mask = torch.zeros(batch_size, num_agents, dtype=torch.bool, device=device)
+
+        # Node availability, progressively closed off as earlier groups commit
+        remaining_mask = mask.clone()
+        b_idx = torch.arange(batch_size, device=device)
+
+        for start in range(0, num_agents, self.group_size):
+            idx = list(range(start, min(start + self.group_size, num_agents)))
+
+            group_mask = remaining_mask[:, idx, :].clone()
+            group_logits_raw = logprobs[:, idx, :].clone()
+
+            # An agent can end up with zero valid targets THIS round purely
+            # because earlier groups in the same step already claimed every
+            # node it could still reach (it hasn't necessarily finished, so
+            # e.g. its own depot column may still be closed too). Since this
+            # is not a real dead end (env.step() hasn't happened yet), give
+            # it its usual conflict-loser fallback: stay in place this round.
+            # (The fallback column is normally masked out of the true action
+            # space, so we also need to give it a finite value to select.)
+            has_valid = group_mask.any(dim=-1)
+            if not has_valid.all():
+                fallback_col = replacement_value[:, idx]
+                deg_b, deg_a = (~has_valid).nonzero(as_tuple=True)
+                group_mask[deg_b, deg_a, fallback_col[deg_b, deg_a]] = True
+                group_logits_raw[deg_b, deg_a, fallback_col[deg_b, deg_a]] = 0.0
+
+            group_logprobs = group_logits_raw.masked_fill(~group_mask, -torch.inf)
+
+            group_actions = (
+                self.greedy(group_logprobs, group_mask)
+                if self.is_greedy
+                else self.sampling(group_logprobs, group_mask)
+            )
+            actions_init[:, idx] = group_actions
+
+            if len(idx) == 1:
+                # A single agent cannot conflict with itself: skip the
+                # agent_handler entirely (it assumes an agent dim >= 2 and
+                # would otherwise squeeze away this size-1 dimension).
+                group_resolved = group_actions
+                group_handling_mask = torch.zeros_like(group_actions, dtype=torch.bool)
+            else:
+                group_replacement = replacement_value[:, idx]
+                group_resolved, group_handling_mask, _ = self.agent_handler(
+                    group_actions.clone(),
+                    group_replacement,
+                    td,
+                    probs=group_logprobs.clone(),
+                    **agent_handler_kwargs,
+                )
+                if group_handling_mask is None:
+                    group_handling_mask = torch.zeros_like(group_actions, dtype=torch.bool)
+
+            actions[:, idx] = group_resolved
+            gather_from = group_actions if self.use_init_logp else group_resolved
+            step_logprobs[:, idx] = gather_by_index(group_logprobs, gather_from, dim=-1)
+            handling_mask[:, idx] = group_handling_mask
+
+            # Close off the nodes this group actually committed to (i.e. not
+            # replaced due to a lost conflict) so later groups cannot pick
+            # them - this is what guarantees zero cross-group conflicts.
+            committed = ~group_handling_mask
+            if committed.any():
+                sel_b = b_idx.unsqueeze(1).expand(-1, len(idx))[committed]
+                sel_n = group_resolved[committed]
+                remaining_mask[sel_b, :, sel_n] = False
+
+        if self.mask_handled:
+            step_logprobs = step_logprobs.masked_fill(handling_mask, 0)
+
+        if self.store_handling_mask:
+            self.handling_masks.append(handling_mask)
+        halting_ratio = handling_mask.float().mean()
+        self.halting_ratios.append(halting_ratio)
+
+        td.set("action", actions)
+        self.actions.append(actions)
+        self.logprobs.append(step_logprobs)
+        return td
+
+    def _step(self, logprobs, mask, td, action=None, **kwargs):
+        pass
+
+
+class GroupGreedy(GroupDecoding):
+    name = "group_greedy"
+
+    def __init__(self, num_agents: int, group_size: int = 1, **kwargs) -> None:
+        super().__init__(num_agents=num_agents, group_size=group_size, is_greedy=True, **kwargs)
+
+
+class GroupSampling(GroupDecoding):
+    name = "group_sampling"
+
+    def __init__(self, num_agents: int, group_size: int = 1, **kwargs) -> None:
+        super().__init__(
+            num_agents=num_agents, group_size=group_size, is_greedy=False, **kwargs
+        )
 
 
 class PARCO4FFSPDecoding(PARCODecodingStrategy):

@@ -5,7 +5,7 @@
 #SBATCH --mail-user=athota@uni-hildesheim.de
 #SBATCH --mail-type=ALL
 #SBATCH --partition=STUD
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:6
 
 source .venv/bin/activate
 
@@ -18,7 +18,7 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 # TODO: fill in the timestamped run dir printed by run_hcvrp_sequential.sh
 srun python test.py \
   --problem hcvrp \
-  --checkpoint logs/train/runs/hcvrp_n100_m7/parco/2026-05-23_04-14-55/checkpoints/last.ckpt \
+  --checkpoint logs/train/runs/hcvrp_n100_m7/parco_sequential/2026-08-13_09-11-30/checkpoints/last.ckpt \
   --decode_type group_greedy \
   --group_size 1 \
   --batch_size 128

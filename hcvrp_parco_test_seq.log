@@ -1,0 +1,62 @@
+Loading checkpoint from  logs/train/runs/hcvrp_n100_m7/parco_sequential/2026-08-06_06-34-46/checkpoints/last.ckpt
+Loading checkpoint from  logs/train/runs/hcvrp_n100_m7/parco_sequential/2026-08-06_06-34-46/checkpoints/last.ckpt
+Loading ./data/hcvrp/n100_m3_seed24610.npz
+Average cost: 57.6700
+Per step inference time: 0.2624s
+Total inference time: 335.8427s
+Average eval steps: 67.00
+Loading ./data/hcvrp/n100_m5_seed24610.npz
+Average cost: 37.0185
+Per step inference time: 0.1933s
+Total inference time: 247.3753s
+Average eval steps: 39.00
+Loading ./data/hcvrp/n100_m7_seed24610.npz
+Average cost: 27.8408
+Per step inference time: 0.1763s
+Total inference time: 225.7108s
+Average eval steps: 29.00
+Loading ./data/hcvrp/n40_m3_seed24610.npz
+Average cost: 23.3994
+Per step inference time: 0.1055s
+Total inference time: 134.9857s
+Average eval steps: 27.00
+Loading ./data/hcvrp/n40_m5_seed24610.npz
+Average cost: 15.4014
+Per step inference time: 0.0750s
+Total inference time: 96.0165s
+Average eval steps: 15.00
+Loading ./data/hcvrp/n40_m7_seed24610.npz
+Average cost: 11.8199
+Per step inference time: 0.0679s
+Total inference time: 86.8583s
+Average eval steps: 11.00
+Loading ./data/hcvrp/n60_m3_seed24610.npz
+Average cost: 34.3701
+Per step inference time: 0.1966s
+Total inference time: 251.5998s
+Average eval steps: 39.00
+Loading ./data/hcvrp/n60_m5_seed24610.npz
+Average cost: 22.3754
+Per step inference time: 0.1491s
+Total inference time: 190.7873s
+Average eval steps: 23.00
+Loading ./data/hcvrp/n60_m7_seed24610.npz
+Average cost: 17.1635
+Per step inference time: 0.1360s
+Total inference time: 174.0577s
+Average eval steps: 17.00
+Loading ./data/hcvrp/n80_m3_seed24610.npz
+Average cost: 46.3527
+Per step inference time: 0.2447s
+Total inference time: 313.2018s
+Average eval steps: 53.00
+Loading ./data/hcvrp/n80_m5_seed24610.npz
+Average cost: 30.1150
+Per step inference time: 0.1541s
+Total inference time: 197.2233s
+Average eval steps: 31.00
+Loading ./data/hcvrp/n80_m7_seed24610.npz
+Average cost: 22.6520
+Per step inference time: 0.1407s
+Total inference time: 180.0989s
+Average eval steps: 23.00

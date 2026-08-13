@@ -1,0 +1,9 @@
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torchrl/data/replay_buffers/samplers.py:37: UserWarning: Failed to import torchrl C++ binaries. Some modules (eg, prioritized replay buffers) may not work with your installation. This is likely due to a discrepancy between your package version and the PyTorch version. Make sure both are compatible. Usually, torchrl majors follow the pytorch majors within a few days around the release. For instance, TorchRL 0.5 requires PyTorch 2.4.0, and TorchRL 0.6 requires PyTorch 2.5.0.
+  warnings.warn(EXTENSION_WARNING)
+Returning existing local_dir `.` as remote repo cannot be accessed in `snapshot_download` ((MaxRetryError('HTTPSConnectionPool(host=\'huggingface.co\', port=443): Max retries exceeded with url: /api/datasets/ai4co/parco/revision/main (Caused by NameResolutionError("HTTPSConnection(host=\'huggingface.co\', port=443): Failed to resolve \'huggingface.co\' ([Errno -3] Temporary failure in name resolution)"))'), '(Request ID: 4cfe0c29-0e15-4bb3-a772-b1131ac5f24f)')).
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/test.py", line 91, in <module>
+    data_paths = [f"./data/{problem}/{f}" for f in os.listdir(f"./data/{problem}")]
+                                                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: './data/hcvrp'
+srun: error: stud-000: task 0: Exited with exit code 1

@@ -1,0 +1,6 @@
+- experiment=hcvrp_tanh_attn
+- model.batch_size=16
+- model.val_batch_size=16
+- model.test_batch_size=16
+- model.num_augment=4
+- +trainer.accumulate_grad_batches=8

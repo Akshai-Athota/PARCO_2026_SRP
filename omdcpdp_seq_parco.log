@@ -1,0 +1,344 @@
+[[36m2026-08-11 11:44:29,589[0m][[34mrl4co.utils.utils[0m][[32mINFO[0m] - Enforcing tags! <cfg.extras.enforce_tags=True>[0m
+[[36m2026-08-11 11:44:29,593[0m][[34mrl4co.utils.utils[0m][[32mINFO[0m] - Printing config tree with Rich! <cfg.extras.print_config=True>[0m
+CONFIG
+├── model
+│   └── _target_: parco.models.rl.PARCORLModule                                 
+│       metrics:                                                                
+│         train:                                                                
+│         - loss                                                                
+│         - reward                                                              
+│         - halting_ratio                                                       
+│         - pos_ratio                                                           
+│         val:                                                                  
+│         - reward                                                              
+│         - halting_ratio                                                       
+│         - pos_ratio                                                           
+│         test:                                                                 
+│         - reward                                                              
+│         - halting_ratio                                                       
+│         - pos_ratio                                                           
+│         log_on_step: true                                                     
+│       policy:                                                                 
+│         _target_: parco.models.policy.PARCOPolicy                             
+│         env_name: omdcpdp                                                     
+│         agent_handler: highprob                                               
+│         embed_dim: 128                                                        
+│         norm_after: false                                                     
+│         normalization: rms                                                    
+│         use_final_norm: false                                                 
+│         parallel_gated_kwargs:                                                
+│           mlp_activation: silu                                                
+│         context_embedding_kwargs:                                             
+│           normalization: rms                                                  
+│           norm_after: false                                                   
+│           use_final_norm: false                                               
+│           parallel_gated_kwargs:                                              
+│             mlp_activation: silu                                              
+│         train_decode_type: group_sampling                                     
+│         val_decode_type: group_greedy                                         
+│         test_decode_type: group_greedy                                        
+│         group_size: 1                                                         
+│       batch_size: 8                                                           
+│       val_batch_size: 8                                                       
+│       test_batch_size: 8                                                      
+│       train_data_size: 100000                                                 
+│       val_data_size: 10000                                                    
+│       test_data_size: 10000                                                   
+│       optimizer_kwargs:                                                       
+│         lr: 0.0001                                                            
+│         weight_decay: 0.0                                                     
+│       lr_scheduler: MultiStepLR                                               
+│       lr_scheduler_kwargs:                                                    
+│         milestones:                                                           
+│         - 80                                                                  
+│         - 95                                                                  
+│         gamma: 0.1                                                            
+│       num_augment: 4                                                          
+│       train_min_agents: 10                                                    
+│       train_max_agents: 50                                                    
+│       train_min_size: 50                                                      
+│       train_max_size: 100                                                     
+│                                                                               
+├── callbacks
+│   └── model_checkpoint:                                                       
+│         _target_: lightning.pytorch.callbacks.ModelCheckpoint                 
+│         dirpath: /home/athota/PARCO_2026_SRP/logs/train/runs/omdcpdp_n100_m50/
+│         filename: epoch_{epoch:03d}                                           
+│         monitor: val/reward                                                   
+│         verbose: false                                                        
+│         save_last: true                                                       
+│         save_top_k: 1                                                         
+│         mode: max                                                             
+│         auto_insert_metric_name: false                                        
+│         save_weights_only: false                                              
+│         every_n_train_steps: null                                             
+│         train_time_interval: null                                             
+│         every_n_epochs: null                                                  
+│         save_on_train_epoch_end: null                                         
+│       model_summary:                                                          
+│         _target_: lightning.pytorch.callbacks.RichModelSummary                
+│         max_depth: 5                                                          
+│       rich_progress_bar:                                                      
+│         _target_: lightning.pytorch.callbacks.RichProgressBar                 
+│       speed_monitor:                                                          
+│         _target_: rl4co.utils.callbacks.speed_monitor.SpeedMonitor            
+│         intra_step_time: true                                                 
+│         inter_step_time: true                                                 
+│         epoch_time: true                                                      
+│       learning_rate_monitor:                                                  
+│         _target_: lightning.pytorch.callbacks.LearningRateMonitor             
+│         logging_interval: epoch                                               
+│                                                                               
+├── logger
+│   └── wandb:                                                                  
+│         _target_: lightning.pytorch.loggers.wandb.WandbLogger                 
+│         save_dir: /home/athota/PARCO_2026_SRP/logs/train/runs/omdcpdp_n100_m50
+│         offline: false                                                        
+│         id: null                                                              
+│         anonymous: null                                                       
+│         project: parco-omdcpdp                                                
+│         log_model: false                                                      
+│         prefix: ''                                                            
+│         group: omdcpdp_n100_m50                                               
+│         tags:                                                                 
+│         - parco                                                               
+│         - omdcpdp                                                             
+│         - communication                                                       
+│         job_type: ''                                                          
+│         name: parco_sequential                                                
+│                                                                               
+├── trainer
+│   └── _target_: rl4co.utils.trainer.RL4COTrainer                              
+│       default_root_dir: /home/athota/PARCO_2026_SRP/logs/train/runs/omdcpdp_n1
+│       gradient_clip_val: 1.0                                                  
+│       accelerator: gpu                                                        
+│       precision: 16-mixed                                                     
+│       check_val_every_n_epoch: 1                                              
+│       deterministic: false                                                    
+│       max_epochs: 100                                                         
+│       accumulate_grad_batches: 16                                             
+│       devices: 1                                                              
+│                                                                               
+├── paths
+│   └── root_dir: /home/athota/PARCO_2026_SRP                                   
+│       data_dir: /home/athota/PARCO_2026_SRP/data/                             
+│       log_dir: /home/athota/PARCO_2026_SRP/logs/                              
+│       output_dir: /home/athota/PARCO_2026_SRP/logs/train/runs/omdcpdp_n100_m50
+│       work_dir: /home/athota/PARCO_2026_SRP                                   
+│                                                                               
+├── extras
+│   └── ignore_warnings: false                                                  
+│       enforce_tags: true                                                      
+│       print_config: true                                                      
+│                                                                               
+├── mode
+│   └── train                                                                   
+├── tags
+│   └── ['dev']                                                                 
+├── train
+│   └── True                                                                    
+├── test
+│   └── True                                                                    
+├── compile
+│   └── False                                                                   
+├── ckpt_path
+│   └── None                                                                    
+├── seed
+│   └── 1234                                                                    
+├── matmul_precision
+│   └── medium                                                                  
+├── metrics
+│   └── train:                                                                  
+│       - loss                                                                  
+│       - reward                                                                
+│       val:                                                                    
+│       - reward                                                                
+│       test:                                                                   
+│       - reward                                                                
+│       log_on_step: true                                                       
+│                                                                               
+└── env
+    └── _target_: parco.envs.omdcpdp.env.OMDCPDPEnv                             
+        name: omdcpdp                                                           
+        reward_mode: lateness                                                   
+        generator_params:                                                       
+          num_loc: 100                                                          
+          num_agents: 50                                                        
+        data_dir: /home/athota/PARCO_2026_SRP/data/omdcpdp                      
+        val_file:                                                               
+        - n50_m5_seed3333.npz                                                   
+        - n50_m10_seed3333.npz                                                  
+        - n50_m15_seed3333.npz                                                  
+        - n100_m10_seed3333.npz                                                 
+        - n100_m20_seed3333.npz                                                 
+        - n100_m30_seed3333.npz                                                 
+        - n200_m20_seed3333.npz                                                 
+        - n200_m40_seed3333.npz                                                 
+        - n200_m60_seed3333.npz                                                 
+        val_dataloader_names:                                                   
+        - n50_m5                                                                
+        - n50_m10                                                               
+        - n50_m20                                                               
+        - n100_m10                                                              
+        - n100_m20                                                              
+        - n100_m30                                                              
+        - n200_m20                                                              
+        - n200_m40                                                              
+        - n200_m60                                                              
+        test_file:                                                              
+        - n50_m5_seed3333.npz                                                   
+        - n50_m10_seed3333.npz                                                  
+        - n50_m15_seed3333.npz                                                  
+        - n100_m10_seed3333.npz                                                 
+        - n100_m20_seed3333.npz                                                 
+        - n100_m30_seed3333.npz                                                 
+        - n200_m20_seed3333.npz                                                 
+        - n200_m40_seed3333.npz                                                 
+        - n200_m60_seed3333.npz                                                 
+        test_dataloader_names:                                                  
+        - n50_m5                                                                
+        - n50_m10                                                               
+        - n50_m20                                                               
+        - n100_m10                                                              
+        - n100_m20                                                              
+        - n100_m30                                                              
+        - n200_m20                                                              
+        - n200_m40                                                              
+        - n200_m60                                                              
+                                                                                
+[[36m2026-08-11 11:44:29,685[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating environment <parco.envs.omdcpdp.env.OMDCPDPEnv>[0m
+[[36m2026-08-11 11:44:30,356[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating model <parco.models.rl.PARCORLModule>[0m
+[[36m2026-08-11 11:44:30,582[0m][[34mparco.models.policy[0m][[32mINFO[0m] - Initializing default PARCOEncoder[0m
+[[36m2026-08-11 11:44:30,592[0m][[34mparco.models.policy[0m][[32mINFO[0m] - Initializing default PARCODecoder[0m
+[[36m2026-08-11 11:44:30,628[0m][[34mrl4co.data.transforms[0m][[32mINFO[0m] - Features not passed, defaulting to 'locs'[0m
+[[36m2026-08-11 11:44:30,628[0m][[34mrl4co.data.transforms[0m][[32mINFO[0m] - Features not passed, defaulting to 'locs'[0m
+[[36m2026-08-11 11:44:30,629[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating callbacks...[0m
+[[36m2026-08-11 11:44:30,630[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>[0m
+[[36m2026-08-11 11:44:30,634[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>[0m
+[[36m2026-08-11 11:44:30,635[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>[0m
+[[36m2026-08-11 11:44:30,635[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>[0m
+[[36m2026-08-11 11:44:30,637[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>[0m
+[[36m2026-08-11 11:44:30,637[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating loggers...[0m
+[[36m2026-08-11 11:44:30,637[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>[0m
+[[36m2026-08-11 11:44:30,641[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating trainer...[0m
+[[36m2026-08-11 11:44:30,667[0m][[34m__main__[0m][[32mINFO[0m] - Logging hyperparameters![0m
+[[36m2026-08-11 11:44:32,502[0m][[34m__main__[0m][[32mINFO[0m] - Starting training![0m
+[[36m2026-08-11 11:44:32,752[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Setting up batch sizes for train/val/test[0m
+[[36m2026-08-11 11:44:32,752[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Setting up datasets[0m
+[[36m2026-08-11 11:44:34,476[0m][[34mrl4co.envs.common.base[0m][[32mINFO[0m] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'][0m
+[[36m2026-08-11 11:44:34,573[0m][[34mrl4co.envs.common.base[0m][[31mERROR[0m] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset val_file to generate data automatically instead[0m
+[[36m2026-08-11 11:44:34,683[0m][[34mrl4co.envs.common.base[0m][[32mINFO[0m] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'][0m
+[[36m2026-08-11 11:44:34,711[0m][[34mrl4co.envs.common.base[0m][[31mERROR[0m] - Provided file name ['/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m5_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n50_m15_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m10_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n100_m30_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m20_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m40_seed3333.npz', '/home/athota/PARCO_2026_SRP/data/omdcpdp/n200_m60_seed3333.npz'] not found. Make sure to provide a file in the right path first or unset test_file to generate data automatically instead[0m
+[[36m2026-08-11 11:44:35,258[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Instantiating optimizer <Adam>[0m
+[[36m2026-08-11 11:44:35,259[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Instantiating LR scheduler <MultiStepLR>[0m
+┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━┳━━━━━┳━━━━┓
+┃    ┃ Name                                                    ┃ T… ┃ Pa… ┃ M… ┃
+┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━╇━━━━━╇━━━━┩
+│ 0  │ env                                                     │ O… │   0 │ t… │
+│ 1  │ policy                                                  │ P… │ 1.2 │ t… │
+│    │                                                         │    │   M │    │
+│ 2  │ policy.encoder                                          │ P… │ 790 │ t… │
+│    │                                                         │    │   K │    │
+│ 3  │ policy.encoder.init_embedding                           │ O… │ 1.8 │ t… │
+│    │                                                         │    │   K │    │
+│ 4  │ policy.encoder.init_embedding.init_embed_vehicle        │ L… │ 512 │ t… │
+│ 5  │ policy.encoder.init_embedding.init_embed_pick           │ L… │ 640 │ t… │
+│ 6  │ policy.encoder.init_embedding.init_embed_delivery       │ L… │ 640 │ t… │
+│ 7  │ policy.encoder.layers                                   │ S… │ 788 │ t… │
+│    │                                                         │    │   K │    │
+│ 8  │ policy.encoder.layers.0                                 │ T… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 9  │ policy.encoder.layers.0.norm_attn                       │ N… │ 128 │ t… │
+│ 10 │ policy.encoder.layers.0.attention                       │ M… │ 66… │ t… │
+│    │                                                         │    │   K │    │
+│ 11 │ policy.encoder.layers.0.norm_ffn                        │ N… │ 128 │ t… │
+│ 12 │ policy.encoder.layers.0.ffn                             │ P… │ 196 │ t… │
+│    │                                                         │    │   K │    │
+│ 13 │ policy.encoder.layers.1                                 │ T… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 14 │ policy.encoder.layers.1.norm_attn                       │ N… │ 128 │ t… │
+│ 15 │ policy.encoder.layers.1.attention                       │ M… │ 66… │ t… │
+│    │                                                         │    │   K │    │
+│ 16 │ policy.encoder.layers.1.norm_ffn                        │ N… │ 128 │ t… │
+│ 17 │ policy.encoder.layers.1.ffn                             │ P… │ 196 │ t… │
+│    │                                                         │    │   K │    │
+│ 18 │ policy.encoder.layers.2                                 │ T… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 19 │ policy.encoder.layers.2.norm_attn                       │ N… │ 128 │ t… │
+│ 20 │ policy.encoder.layers.2.attention                       │ M… │ 66… │ t… │
+│    │                                                         │    │   K │    │
+│ 21 │ policy.encoder.layers.2.norm_ffn                        │ N… │ 128 │ t… │
+│ 22 │ policy.encoder.layers.2.ffn                             │ P… │ 196 │ t… │
+│    │                                                         │    │   K │    │
+│ 23 │ policy.decoder                                          │ P… │ 410 │ t… │
+│    │                                                         │    │   K │    │
+│ 24 │ policy.decoder.context_embedding                        │ O… │ 328 │ t… │
+│    │                                                         │    │   K │    │
+│ 25 │ policy.decoder.context_embedding.proj_agent_feats       │ L… │ 256 │ t… │
+│ 26 │ policy.decoder.context_embedding.proj_global_feats      │ L… │ 128 │ t… │
+│ 27 │ policy.decoder.context_embedding.project_context        │ L… │ 65… │ t… │
+│    │                                                         │    │   K │    │
+│ 28 │ policy.decoder.context_embedding.communication_layers   │ S… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 29 │ policy.decoder.context_embedding.communication_layers.0 │ T… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 30 │ policy.decoder.dynamic_embedding                        │ S… │   0 │ t… │
+│ 31 │ policy.decoder.pointer                                  │ P… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 32 │ policy.decoder.pointer.project_out                      │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 33 │ policy.decoder.project_node_embeddings                  │ L… │ 49… │ t… │
+│    │                                                         │    │   K │    │
+│ 34 │ policy.decoder.project_fixed_context                    │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 35 │ baseline                                                │ N… │   0 │ t… │
+│ 36 │ projection_head                                         │ M… │ 33… │ t… │
+│    │                                                         │    │   K │    │
+│ 37 │ projection_head.0                                       │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 38 │ projection_head.1                                       │ R… │   0 │ t… │
+│ 39 │ projection_head.2                                       │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+└────┴─────────────────────────────────────────────────────────┴────┴─────┴────┘
+Trainable params: 1.2 M                                                         
+Non-trainable params: 0                                                         
+Total params: 1.2 M                                                             
+Total estimated model params size (MB): 4                                       
+Modules in train mode: 72                                                       
+Modules in eval mode: 0                                                         
+[[36m2026-08-11 12:22:24,811[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 13:08:33,124[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 13:47:40,294[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 14:25:39,588[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 15:02:37,544[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 15:39:43,647[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 16:16:41,811[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 16:53:25,975[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 17:30:26,251[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 18:07:29,491[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 18:44:32,643[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 19:21:19,743[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 19:58:22,576[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 20:35:22,857[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 21:12:17,383[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 21:49:23,520[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 22:26:17,304[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 23:03:23,382[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-11 23:40:17,989[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 00:17:35,100[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 00:54:37,845[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 01:31:43,677[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 02:09:01,218[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 02:46:32,299[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 03:23:49,150[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 04:00:56,787[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 04:37:57,907[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 05:15:22,045[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 05:52:32,931[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 06:29:42,339[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 07:06:59,265[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 07:44:20,597[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 08:21:43,302[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 08:58:53,336[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 09:36:11,251[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m
+[[36m2026-08-12 10:13:54,390[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Generating training dataset for next epoch...[0m

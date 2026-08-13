@@ -7,6 +7,12 @@
 #SBATCH --partition=STUD
 #SBATCH --gres=gpu:6
 
+# Always run from this script's own location, regardless of where `sbatch`
+# was invoked from -- test.py resolves ./data and --checkpoint as relative
+# paths against the process CWD (unlike train.py, which anchors to the repo
+# root via pyrootutils), so pin CWD explicitly to avoid FileNotFoundErrors.
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 source .venv/bin/activate
 
 export WANDB_MODE=offline

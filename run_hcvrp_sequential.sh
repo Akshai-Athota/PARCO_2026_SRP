@@ -7,6 +7,12 @@
 #SBATCH --partition=STUD
 #SBATCH --gres=gpu:6
 
+# Always run from this script's own location, regardless of where `sbatch`
+# was invoked from -- train.py doesn't need this (pyrootutils anchors to
+# the repo root independent of CWD), but test.py and the .venv activation
+# below both rely on relative paths, so pin CWD explicitly.
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
 source .venv/bin/activate
 export WANDB_MODE=offline
 export WANDB_DIR=$SLURM_SUBMIT_DIR/wandb

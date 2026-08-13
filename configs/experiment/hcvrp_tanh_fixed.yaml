@@ -15,9 +15,11 @@ logger:
   wandb:
     name: "parco_tanh_fixed_c${model.policy.tanh_clipping}"
 
-# The base hcvrp.yaml monitors a per-dataset key ("val/reward/n60_m5") that
-# isn't actually being logged in this environment -- only the generic
-# "val/reward" is. Watch that instead so ModelCheckpoint doesn't crash.
+# Which validation metric key actually gets logged (generic "val/reward" vs
+# per-dataset "val/reward/n60_m5" etc.) apparently depends on the decode
+# setup and isn't reliable to hardcode -- disable monitor-based top-k
+# selection entirely and rely on save_last (already True at the base
+# callbacks level) to always write last.ckpt regardless of what's logged.
 callbacks:
   model_checkpoint:
-    monitor: "val/reward"
+    monitor: null

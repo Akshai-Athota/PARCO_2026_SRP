@@ -15,3 +15,10 @@ model:
 logger:
   wandb:
     name: "parco_sequential"
+
+# The base hcvrp.yaml monitors a per-dataset key ("val/reward/n60_m5") that
+# isn't actually being logged in this environment -- only the generic
+# "val/reward" is. Watch that instead so ModelCheckpoint doesn't crash.
+callbacks:
+  model_checkpoint:
+    monitor: "val/reward"

@@ -1,0 +1,23 @@
+# @package _global_
+# SRP Idea 2: explicit, clearly-labeled version of the plain baseline.
+# phi_scaled(z;C) = C*tanh(z/C) on decoder logits only. Behaviorally
+# IDENTICAL to unmodified hcvrp.yaml (this is already the default
+# tanh_clip_mode) -- this file exists only so the run/checkpoint/wandb name
+# are explicit for comparison against hcvrp_tanh_fixed, instead of relying
+# on an unnamed implicit default.
+defaults:
+  - hcvrp.yaml
+
+model:
+  policy:
+    tanh_clip_mode: "scaled"
+    tanh_clipping: 10
+
+logger:
+  wandb:
+    name: "parco_tanh_scaled_c${model.policy.tanh_clipping}"
+
+# Same checkpoint-monitor fix as hcvrp_tanh_fixed.yaml.
+callbacks:
+  model_checkpoint:
+    monitor: "val/reward"

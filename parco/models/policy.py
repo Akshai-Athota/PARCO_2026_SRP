@@ -62,6 +62,10 @@ class PARCOPolicy(nn.Module):
         sdpa_fn_decoder: (
             Callable | str
         ) = "simple",  # SDPA function for decoder, simple is JIC https://github.com/ai4co/rl4co/issues/228
+        tanh_clipping: float = 10.0,  # SRP Idea 2: clip value C for decoder/action logits
+        tanh_clip_mode: str = "scaled",  # SRP Idea 2: "fixed" C*tanh(z) vs "scaled" C*tanh(z/C)
+        attn_tanh_clipping: float = 0.0,  # SRP Idea 2: clip value C for encoder MHA attention logits. 0 = off (matches prior behavior)
+        attn_clip_mode: str = "scaled",  # SRP Idea 2: "fixed" vs "scaled", for attention logits
     ):
         super(PARCOPolicy, self).__init__()
 
@@ -93,6 +97,8 @@ class PARCOPolicy(nn.Module):
                 use_pos_token=use_pos_token,
                 trainable_pos_token=trainable_pos_token,
                 parallel_gated_kwargs=parallel_gated_kwargs,
+                attn_tanh_clipping=attn_tanh_clipping,
+                attn_clip_mode=attn_clip_mode,
             )
         else:
             log.warning("Using custom encoder")
@@ -122,6 +128,8 @@ class PARCOPolicy(nn.Module):
         # self.two_stage_pos_sampling = two_stage_pos_sampling
         self.mask_handled = mask_handled
         self.use_init_logp = use_init_logp
+        self.tanh_clipping = tanh_clipping
+        self.tanh_clip_mode = tanh_clip_mode
 
     def forward(
         self,
@@ -145,6 +153,11 @@ class PARCOPolicy(nn.Module):
             decode_type = "evaluate"
         elif decode_type is None:
             decode_type = getattr(self, f"{phase}_decode_type")
+
+        # SRP Idea 2: fall back to the policy's own tanh-clipping settings
+        # unless a call-time override was already given
+        decoding_kwargs.setdefault("tanh_clipping", self.tanh_clipping)
+        decoding_kwargs.setdefault("tanh_clip_mode", self.tanh_clip_mode)
 
         # When decode_type is sampling, we need to know the number of samples
         num_samples = decoding_kwargs.pop("num_samples", 1)

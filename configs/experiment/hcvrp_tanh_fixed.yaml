@@ -1,0 +1,23 @@
+# @package _global_
+# SRP Idea 2: phi_fixed(z;C) = C*tanh(z) decoder-logit clipping instead of
+# the default phi_scaled(z;C) = C*tanh(z/C). Full PAR train/val/test decode
+# (unchanged default sampling/greedy, no group_size) -- no sequential
+# decoding here.
+defaults:
+  - hcvrp.yaml
+
+model:
+  policy:
+    tanh_clip_mode: "fixed"
+    tanh_clipping: 10
+
+logger:
+  wandb:
+    name: "parco_tanh_fixed_c${model.policy.tanh_clipping}"
+
+# The base hcvrp.yaml monitors a per-dataset key ("val/reward/n60_m5") that
+# isn't actually being logged in this environment -- only the generic
+# "val/reward" is. Watch that instead so ModelCheckpoint doesn't crash.
+callbacks:
+  model_checkpoint:
+    monitor: "val/reward"

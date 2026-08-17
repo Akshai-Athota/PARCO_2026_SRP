@@ -163,6 +163,7 @@ class PARCOPolicy(nn.Module):
             use_init_logp=self.use_init_logp,
             mask_handled=self.mask_handled,
             replacement_value_key=self.replacement_value_key,
+            use_pos_token=self.use_pos_token,
             num_samples=num_samples,
             **decoding_kwargs,
         )

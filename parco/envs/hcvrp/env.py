@@ -161,26 +161,37 @@ class HCVRPEnv(RL4COEnvBase):
             - action [batch_size, num_agents]: action taken by each agent
         """
         num_agents = td["current_node"].size(-1)
+        num_loc_all = td["locs"].size(-2)  # num_agents (depots) + num_loc (customers)
+
+        # SRP Idea 5: an agent may pick the learnable "wait" action (the POS
+        # token appended by the decoder, index == num_loc_all -- one past
+        # every real depot/customer column). It has no slot in locs/demand/
+        # visited, so treat it exactly like staying at current_node for
+        # indexing purposes; the model still gets credited for having
+        # chosen wait (that's handled upstream, before td["action"] is
+        # overwritten here).
+        wait_flag = td["action"] >= num_loc_all
+        effective_action = torch.where(wait_flag, td["current_node"], td["action"])
 
         # Update the current length
-        current_loc = gather_by_index(td["locs"], td["action"])
+        current_loc = gather_by_index(td["locs"], effective_action)
         previous_loc = gather_by_index(td["locs"], td["current_node"])
         current_length = td["current_length"] + get_distance(previous_loc, current_loc)
 
         # Update the used capacity
         # Increase used capacity if not visiting the depot, otherwise set to 0
-        selected_demand = gather_by_index(td["demand"], td["action"], dim=-1)
+        selected_demand = gather_by_index(td["demand"], effective_action, dim=-1)
 
-        # If the agent is staying at the same node, do not add the demand the second time
-        stay_flag = td["action"] == td["current_node"]
+        # If the agent is staying at the same node (incl. waiting), do not add the demand the second time
+        stay_flag = effective_action == td["current_node"]
         selected_demand = selected_demand * (~stay_flag).float()
         used_capacity = (td["used_capacity"] + selected_demand) * (
-            td["action"] >= num_agents
+            effective_action >= num_agents
         ).float()
 
         # Note: here we do not subtract one as we have to scatter so the first column allows scattering depot
         # Add one dimension since we write a single value
-        visited = td["visited"].scatter(-1, td["action"], 1)
+        visited = td["visited"].scatter(-1, effective_action, 1)
 
         # update the done and reward
         done = visited[..., num_agents:].sum(-1) == (visited.size(-1) - num_agents)
@@ -189,7 +200,7 @@ class HCVRPEnv(RL4COEnvBase):
         td.update(
             {
                 "current_length": current_length,
-                "current_node": td["action"],
+                "current_node": effective_action,
                 "used_capacity": used_capacity,
                 "i": td["i"] + 1,
                 "visited": visited,

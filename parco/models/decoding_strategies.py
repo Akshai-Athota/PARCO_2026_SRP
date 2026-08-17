@@ -44,6 +44,7 @@ class PARCODecodingStrategy(metaclass=abc.ABCMeta):
         use_init_logp: bool = True,  # Return initial logp for actions even with conflicts
         mask_handled: bool = False,  # Mask out handled actions (make logprobs 0)
         replacement_value_key: str = "current_node",  # When stopping arises (conflict or POS token), replace the value of this key
+        use_pos_token: bool = False,  # SRP Idea 5: learnable "wait" action appended as the last logit/mask column
         temperature: float = 1.0,
         top_p: float = 0.0,
         top_k: int = 0,
@@ -76,6 +77,7 @@ class PARCODecodingStrategy(metaclass=abc.ABCMeta):
         self.num_agents = num_agents
         self.agent_handler = agent_handler
         self.replacement_value_key = replacement_value_key
+        self.use_pos_token = use_pos_token
 
         self.temperature = temperature
         self.top_p = top_p
@@ -176,6 +178,14 @@ class PARCODecodingStrategy(metaclass=abc.ABCMeta):
 
         # Solve conflicts via agent handler
         replacement_value = td[self.replacement_value_key]  # replace with previous node
+
+        # SRP Idea 5: the wait token (last column, always unmasked) is a
+        # shared, non-exclusive action -- any number of agents may choose it
+        # at once with no real conflict. Exclude it from conflict detection
+        # entirely so waiting agents are never flagged/replaced.
+        if self.use_pos_token:
+            wait_index = mask.shape[-1] - 1
+            agent_handler_kwargs = {**agent_handler_kwargs, "exclude_values": wait_index}
 
         actions, handling_mask, halting_ratio = self.agent_handler(
             actions, replacement_value, td, probs=logprobs.clone(), **agent_handler_kwargs

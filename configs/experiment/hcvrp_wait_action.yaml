@@ -1,0 +1,28 @@
+# @package _global_
+# SRP Idea 5: explicit idle action -- a learnable "wait" token added to the
+# action space (N -> N+1) so agents can PROACTIVELY choose to idle, not
+# just involuntarily via the conflict-handler fallback. Reuses PARCO's
+# existing (previously FFSP-only) use_pos_token machinery: the encoder
+# appends a learned token to the node embeddings, the decoder appends an
+# always-unmasked logit/mask column, and the conflict handler now excludes
+# the wait index from conflict detection entirely (it's a shared,
+# non-exclusive action -- see parco/models/decoding_strategies.py).
+defaults:
+  - hcvrp.yaml
+
+model:
+  policy:
+    use_pos_token: true
+    trainable_pos_token: true
+
+logger:
+  wandb:
+    name: "parco_wait_action"
+
+# Which validation metric key gets logged isn't reliable to hardcode across
+# configs (seen with hcvrp_sequential and hcvrp_tanh_scaled) -- disable
+# monitor-based top-k selection and rely on save_last (already True at the
+# base callbacks level) for last.ckpt.
+callbacks:
+  model_checkpoint:
+    monitor: null

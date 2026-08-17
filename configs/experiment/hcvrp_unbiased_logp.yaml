@@ -1,0 +1,27 @@
+# @package _global_
+# SRP Idea 3: Log-Probability Bias Fix.
+# Default PARCO (use_init_logp=True) credits the log-prob of each agent's
+# PROPOSED action for REINFORCE, even when the conflict handler overrides
+# it and a different action is actually executed/rewarded -- a mismatch
+# between what's reinforced and what's rewarded. use_init_logp=False
+# credits the log-prob of the action that was actually executed instead,
+# fixing that mismatch. Everything else (architecture, decode type: plain
+# greedy/sampling, full PAR) is unchanged from the baseline hcvrp.yaml.
+defaults:
+  - hcvrp.yaml
+
+model:
+  policy:
+    use_init_logp: false
+
+logger:
+  wandb:
+    name: "parco_unbiased_logp"
+
+# Which validation metric key gets logged isn't reliable to hardcode across
+# decode/training configs (seen with both hcvrp_sequential and
+# hcvrp_tanh_scaled) -- disable monitor-based top-k selection and rely on
+# save_last (already True at the base callbacks level) for last.ckpt.
+callbacks:
+  model_checkpoint:
+    monitor: null

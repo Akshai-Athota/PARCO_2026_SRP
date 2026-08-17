@@ -28,6 +28,7 @@ def env_init_embedding(env_name: str, config: dict, registry: dict = None) -> nn
     emb_registry = {
         "omdcpdp": OMDCPDPInitEmbedding,
         "hcvrp": HCVRPInitEmbedding,
+        "cvrp": HCVRPInitEmbedding,  # SRP Idea 4: homogeneous-fleet CVRP reuses HCVRP's embeddings unchanged
         "ffsp": FFSPInitEmbeddings,
     }
     return env_embedding_register(env_name, config, emb_registry, registry)
@@ -40,6 +41,7 @@ def env_context_embedding(
     emb_registry = {
         "omdcpdp": OMDCPDPContextEmbedding,
         "hcvrp": HCVRPContextEmbedding,
+        "cvrp": HCVRPContextEmbedding,  # SRP Idea 4
         "ffsp": FFSPContextEmbedding,
     }
     return env_embedding_register(env_name, config, emb_registry, registry)

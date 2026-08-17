@@ -8,7 +8,7 @@ import torch
 from rl4co.data.utils import load_npz_to_tensordict
 from tqdm.auto import tqdm
 
-from parco.envs import FFSPEnv, HCVRPEnv, OMDCPDPEnv
+from parco.envs import CVRPEnv, FFSPEnv, HCVRPEnv, OMDCPDPEnv
 from parco.models import PARCORLModule
 from parco.tasks.eval import get_dataloader
 
@@ -110,6 +110,8 @@ if __name__ == "__main__":
     )
     if problem == "hcvrp":
         env = HCVRPEnv()
+    elif problem == "cvrp":
+        env = CVRPEnv()
     elif problem == "omdcpdp":
         env = OMDCPDPEnv()
     elif problem == "ffsp":

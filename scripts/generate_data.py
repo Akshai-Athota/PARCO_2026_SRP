@@ -72,3 +72,9 @@ if __name__ == "__main__":
     kwargs.update({"seed": 24610, "dataset_size": 1280})  # same as 2D-Ptr paper
     size_agents_dict = {40: [3, 5, 7], 60: [3, 5, 7], 80: [3, 5, 7], 100: [3, 5, 7]}
     generate_with_agents(problem, size_agents_dict, **kwargs)
+
+    problem = "cvrp"  # SRP Idea 4: homogeneous-fleet CVRP
+    print(50 * "=" + f"\nGenerating instances for {problem.upper()}...\n" + 50 * "=")
+    kwargs.update({"seed": 24610, "dataset_size": 1280})  # same as HCVRP, for comparability
+    size_agents_dict = {40: [3, 5, 7], 60: [3, 5, 7], 80: [3, 5, 7], 100: [3, 5, 7]}
+    generate_with_agents(problem, size_agents_dict, **kwargs)

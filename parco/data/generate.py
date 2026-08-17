@@ -117,6 +117,35 @@ def generate_hcvrp_data(dataset_size, graph_size, num_agents=3):
     return data
 
 
+def generate_cvrp_data(dataset_size, graph_size, num_agents=3):
+    """SRP Idea 4: homogeneous-fleet CVRP. Same instance distribution as
+    generate_hcvrp_data (2D-Ptr paper convention), except capacity is
+    sampled ONCE per instance and shared by every vehicle (cap_m = cap for
+    all m) instead of independently per vehicle, and speed is fixed at 1.0
+    for all vehicles (no per-vehicle speed heterogeneity), consistent with
+    parco.envs.cvrp.CVRPGenerator.
+    """
+
+    loc = np.random.uniform(0, 1, size=(dataset_size, graph_size + 1, 2))
+    depot = loc[:, -1]
+    cust = loc[:, :-1]
+    d = np.random.randint(1, 10, [dataset_size, graph_size + 1])
+    d = d[:, :-1]  # the demand of depot is 0, which do not need to generate here
+
+    # homogeneous fleet: one capacity value per instance, shared by all agents
+    cap = np.random.randint(20, 41, size=(dataset_size, 1)).repeat(num_agents, axis=-1)
+    speed = np.ones((dataset_size, num_agents))
+
+    data = {
+        "depot": depot.astype(np.float32),
+        "locs": cust.astype(np.float32),
+        "demand": d.astype(np.float32),
+        "capacity": cap.astype(np.float32),
+        "speed": speed.astype(np.float32),
+    }
+    return data
+
+
 def generate_dataset(
     filename=None,
     data_dir="data",

@@ -7,12 +7,24 @@
 # credits the log-prob of the action that was actually executed instead,
 # fixing that mismatch. Everything else (architecture, decode type: plain
 # greedy/sampling, full PAR) is unchanged from the baseline hcvrp.yaml.
+#
+# mask_handled=True is REQUIRED alongside use_init_logp=False, not optional:
+# a conflict-losing agent's executed action is the fallback (current_node,
+# i.e. "stay"), which is very often itself masked out as infeasible in the
+# original distribution (e.g. current_node is a customer already visited)
+# -- its raw logit is -inf before softmax, so gathering that log-prob
+# directly crashes get_log_likelihood's "-inf" assertion. mask_handled=True
+# zeroes out (rather than gathers) the log-prob for exactly those
+# handled/conflicted agents instead, which is also why the codebase already
+# raises an error if you try mask_handled=True with use_init_logp=True --
+# the two flags are meant to be set together in this direction.
 defaults:
   - hcvrp.yaml
 
 model:
   policy:
     use_init_logp: false
+    mask_handled: true
 
 logger:
   wandb:

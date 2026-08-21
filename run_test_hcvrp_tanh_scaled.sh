@@ -5,12 +5,11 @@
 #SBATCH --mail-user=athota@uni-hildesheim.de
 #SBATCH --mail-type=ALL
 #SBATCH --partition=STUD
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:6
 
 # Always run from the directory `sbatch` was submitted from -- SLURM copies
 # the script into a spool dir before running it, so relative paths (.venv,
 # data/, --checkpoint) would otherwise resolve against the wrong location.
-cd "$SLURM_SUBMIT_DIR"
 
 source .venv/bin/activate
 
@@ -22,6 +21,6 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 # TODO: fill in the timestamped run dir printed by run_hcvrp_tanh_scaled.sh
 srun python test.py \
   --problem hcvrp \
-  --checkpoint logs/train/runs/<FILL_IN_TIMESTAMP>/checkpoints/last.ckpt \
+  --checkpoint logs/train/runs/hcvrp_n100_m7/parco_tanh_scaled_c10/2026-08-13_20-14-23/checkpoints/last.ckpt \
   --decode_type greedy \
   --batch_size 128

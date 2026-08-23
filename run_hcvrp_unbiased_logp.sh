@@ -5,12 +5,11 @@
 #SBATCH --mail-user=athota@uni-hildesheim.de
 #SBATCH --mail-type=ALL
 #SBATCH --partition=STUD
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:8
 
 # Always run from the directory `sbatch` was submitted from -- SLURM copies
 # the script into a spool dir before running it, so relative paths (.venv,
 # data/, logs/) would otherwise resolve against the wrong location.
-cd "$SLURM_SUBMIT_DIR"
 
 source .venv/bin/activate
 export WANDB_MODE=offline
@@ -28,4 +27,5 @@ srun python train.py experiment=hcvrp_unbiased_logp \
     model.val_batch_size=16 \
     model.test_batch_size=16 \
     model.num_augment=4 \
+    +model.dataloader_num_workers=7 \
     +trainer.accumulate_grad_batches=8

@@ -1,0 +1,8 @@
+- experiment=hcvrp_wait_action
+- model.batch_size=16
+- model.val_batch_size=16
+- model.test_batch_size=16
+- model.num_augment=4
+- +model.dataloader_num_workers=7
+- +model.dataloader_persistent_workers=True
+- +trainer.accumulate_grad_batches=8

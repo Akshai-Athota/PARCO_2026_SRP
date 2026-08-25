@@ -1,0 +1,462 @@
+[[36m2026-08-24 10:04:52,008[0m][[34mrl4co.utils.utils[0m][[32mINFO[0m] - Enforcing tags! <cfg.extras.enforce_tags=True>[0m
+[[36m2026-08-24 10:04:52,012[0m][[34mrl4co.utils.utils[0m][[32mINFO[0m] - Printing config tree with Rich! <cfg.extras.print_config=True>[0m
+CONFIG
+├── model
+│   └── _target_: parco.models.rl.PARCORLModule                                 
+│       metrics:                                                                
+│         train:                                                                
+│         - loss                                                                
+│         - reward                                                              
+│         - halting_ratio                                                       
+│         - pos_ratio                                                           
+│         val:                                                                  
+│         - reward                                                              
+│         - halting_ratio                                                       
+│         - pos_ratio                                                           
+│         test:                                                                 
+│         - reward                                                              
+│         - halting_ratio                                                       
+│         - pos_ratio                                                           
+│         log_on_step: true                                                     
+│       policy:                                                                 
+│         _target_: parco.models.policy.PARCOPolicy                             
+│         env_name: hcvrp                                                       
+│         agent_handler: highprob                                               
+│         embed_dim: 128                                                        
+│         norm_after: false                                                     
+│         normalization: rms                                                    
+│         use_final_norm: true                                                  
+│         parallel_gated_kwargs:                                                
+│           mlp_activation: silu                                                
+│         context_embedding_kwargs:                                             
+│           normalization: rms                                                  
+│           norm_after: false                                                   
+│           use_final_norm: true                                                
+│           parallel_gated_kwargs:                                              
+│             mlp_activation: silu                                              
+│         use_pos_token: true                                                   
+│         trainable_pos_token: true                                             
+│       batch_size: 8                                                           
+│       val_batch_size: 8                                                       
+│       test_batch_size: 8                                                      
+│       train_data_size: 100000                                                 
+│       val_data_size: 10000                                                    
+│       test_data_size: 10000                                                   
+│       optimizer_kwargs:                                                       
+│         lr: 0.0001                                                            
+│         weight_decay: 0.0                                                     
+│       lr_scheduler: MultiStepLR                                               
+│       lr_scheduler_kwargs:                                                    
+│         milestones:                                                           
+│         - 80                                                                  
+│         - 95                                                                  
+│         gamma: 0.1                                                            
+│       num_augment: 4                                                          
+│       train_min_agents: 3                                                     
+│       train_max_agents: 7                                                     
+│       train_min_size: 60                                                      
+│       train_max_size: 100                                                     
+│       dataloader_num_workers: 7                                               
+│                                                                               
+├── callbacks
+│   └── model_checkpoint:                                                       
+│         _target_: lightning.pytorch.callbacks.ModelCheckpoint                 
+│         dirpath: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/par
+│         filename: epoch_{epoch:03d}                                           
+│         monitor: null                                                         
+│         verbose: false                                                        
+│         save_last: true                                                       
+│         save_top_k: 1                                                         
+│         mode: max                                                             
+│         auto_insert_metric_name: false                                        
+│         save_weights_only: false                                              
+│         every_n_train_steps: null                                             
+│         train_time_interval: null                                             
+│         every_n_epochs: null                                                  
+│         save_on_train_epoch_end: null                                         
+│       model_summary:                                                          
+│         _target_: lightning.pytorch.callbacks.RichModelSummary                
+│         max_depth: 5                                                          
+│       rich_progress_bar:                                                      
+│         _target_: lightning.pytorch.callbacks.RichProgressBar                 
+│       speed_monitor:                                                          
+│         _target_: rl4co.utils.callbacks.speed_monitor.SpeedMonitor            
+│         intra_step_time: true                                                 
+│         inter_step_time: true                                                 
+│         epoch_time: true                                                      
+│       learning_rate_monitor:                                                  
+│         _target_: lightning.pytorch.callbacks.LearningRateMonitor             
+│         logging_interval: epoch                                               
+│                                                                               
+├── logger
+│   └── wandb:                                                                  
+│         _target_: lightning.pytorch.loggers.wandb.WandbLogger                 
+│         save_dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/pa
+│         offline: false                                                        
+│         id: null                                                              
+│         anonymous: null                                                       
+│         project: parco-hcvrp                                                  
+│         log_model: false                                                      
+│         prefix: ''                                                            
+│         group: hcvrp_n100_m7                                                  
+│         tags:                                                                 
+│         - parco                                                               
+│         - hcvrp                                                               
+│         - communication                                                       
+│         job_type: ''                                                          
+│         name: parco_wait_action                                               
+│                                                                               
+├── trainer
+│   └── _target_: rl4co.utils.trainer.RL4COTrainer                              
+│       default_root_dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100
+│       gradient_clip_val: 1.0                                                  
+│       accelerator: gpu                                                        
+│       precision: 16-mixed                                                     
+│       strategy:                                                               
+│         _target_: lightning.pytorch.strategies.DDPStrategy                    
+│         find_unused_parameters: true                                          
+│         gradient_as_bucket_view: true                                         
+│       check_val_every_n_epoch: 1                                              
+│       deterministic: false                                                    
+│       max_epochs: 100                                                         
+│       accumulate_grad_batches: 8                                              
+│                                                                               
+├── paths
+│   └── root_dir: /home/athota/PARCO_2026_SRP                                   
+│       data_dir: /home/athota/PARCO_2026_SRP/data/                             
+│       log_dir: /home/athota/PARCO_2026_SRP/logs/                              
+│       output_dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/pa
+│       work_dir: /home/athota/PARCO_2026_SRP                                   
+│                                                                               
+├── extras
+│   └── ignore_warnings: false                                                  
+│       enforce_tags: true                                                      
+│       print_config: true                                                      
+│                                                                               
+├── mode
+│   └── train                                                                   
+├── tags
+│   └── ['dev']                                                                 
+├── train
+│   └── True                                                                    
+├── test
+│   └── True                                                                    
+├── compile
+│   └── False                                                                   
+├── ckpt_path
+│   └── None                                                                    
+├── seed
+│   └── 1234                                                                    
+├── matmul_precision
+│   └── medium                                                                  
+├── metrics
+│   └── train:                                                                  
+│       - loss                                                                  
+│       - reward                                                                
+│       val:                                                                    
+│       - reward                                                                
+│       test:                                                                   
+│       - reward                                                                
+│       log_on_step: true                                                       
+│                                                                               
+├── env
+│   └── _target_: parco.envs.hcvrp.HCVRPEnv                                     
+│       name: hcvrp                                                             
+│       generator_params:                                                       
+│         num_loc: 100                                                          
+│         num_agents: 7                                                         
+│       data_dir: /home/athota/PARCO_2026_SRP/data/hcvrp                        
+│       val_file:                                                               
+│       - n60_m3_seed24610.npz                                                  
+│       - n60_m5_seed24610.npz                                                  
+│       - n60_m7_seed24610.npz                                                  
+│       - n80_m3_seed24610.npz                                                  
+│       - n80_m5_seed24610.npz                                                  
+│       - n80_m7_seed24610.npz                                                  
+│       - n100_m3_seed24610.npz                                                 
+│       - n100_m5_seed24610.npz                                                 
+│       - n100_m7_seed24610.npz                                                 
+│       val_dataloader_names:                                                   
+│       - n60_m3                                                                
+│       - n60_m5                                                                
+│       - n60_m7                                                                
+│       - n80_m3                                                                
+│       - n80_m5                                                                
+│       - n80_m7                                                                
+│       - n100_m3                                                               
+│       - n100_m5                                                               
+│       - n100_m7                                                               
+│       test_file:                                                              
+│       - n60_m3_seed24610.npz                                                  
+│       - n60_m5_seed24610.npz                                                  
+│       - n60_m7_seed24610.npz                                                  
+│       - n80_m3_seed24610.npz                                                  
+│       - n80_m5_seed24610.npz                                                  
+│       - n80_m7_seed24610.npz                                                  
+│       - n100_m3_seed24610.npz                                                 
+│       - n100_m5_seed24610.npz                                                 
+│       - n100_m7_seed24610.npz                                                 
+│       test_dataloader_names:                                                  
+│       - n60_m3                                                                
+│       - n60_m5                                                                
+│       - n60_m7                                                                
+│       - n80_m3                                                                
+│       - n80_m5                                                                
+│       - n80_m7                                                                
+│       - n100_m3                                                               
+│       - n100_m5                                                               
+│       - n100_m7                                                               
+│                                                                               
+└── generator_params
+    └── num_loc: 100                                                            
+        num_agents: 7                                                           
+                                                                                
+[[36m2026-08-24 10:04:52,068[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>[0m
+[[36m2026-08-24 10:04:52,729[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating model <parco.models.rl.PARCORLModule>[0m
+[[36m2026-08-24 10:04:52,903[0m][[34mparco.models.policy[0m][[32mINFO[0m] - Initializing default PARCOEncoder[0m
+[[36m2026-08-24 10:04:52,982[0m][[34mparco.models.policy[0m][[32mINFO[0m] - Initializing default PARCODecoder[0m
+[[36m2026-08-24 10:04:53,040[0m][[34mrl4co.data.transforms[0m][[32mINFO[0m] - Features not passed, defaulting to 'locs'[0m
+[[36m2026-08-24 10:04:53,040[0m][[34mrl4co.data.transforms[0m][[32mINFO[0m] - Features not passed, defaulting to 'locs'[0m
+[[36m2026-08-24 10:04:53,042[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating callbacks...[0m
+[[36m2026-08-24 10:04:53,042[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>[0m
+[[36m2026-08-24 10:04:53,048[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>[0m
+[[36m2026-08-24 10:04:53,049[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>[0m
+[[36m2026-08-24 10:04:53,049[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>[0m
+[[36m2026-08-24 10:04:53,052[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>[0m
+[[36m2026-08-24 10:04:53,052[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating loggers...[0m
+[[36m2026-08-24 10:04:53,052[0m][[34mrl4co.utils.instantiators[0m][[32mINFO[0m] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>[0m
+[[36m2026-08-24 10:04:53,056[0m][[34m__main__[0m][[32mINFO[0m] - Instantiating trainer...[0m
+[[36m2026-08-24 10:04:53,083[0m][[34m__main__[0m][[32mINFO[0m] - Logging hyperparameters![0m
+[[36m2026-08-24 10:04:55,114[0m][[34m__main__[0m][[32mINFO[0m] - Starting training![0m
+[[36m2026-08-24 10:04:56,490[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Setting up batch sizes for train/val/test[0m
+[[36m2026-08-24 10:04:56,491[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Setting up datasets[0m
+[[36m2026-08-24 10:04:59,017[0m][[34mrl4co.envs.common.base[0m][[32mINFO[0m] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz'][0m
+[[36m2026-08-24 10:04:59,533[0m][[34mrl4co.envs.common.base[0m][[32mINFO[0m] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz'][0m
+[[36m2026-08-24 10:04:59,743[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Instantiating optimizer <Adam>[0m
+[[36m2026-08-24 10:04:59,743[0m][[34mrl4co.models.rl.common.base[0m][[32mINFO[0m] - Instantiating LR scheduler <MultiStepLR>[0m
+┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━┳━━━━━┳━━━━┓
+┃    ┃ Name                                                    ┃ T… ┃ Pa… ┃ M… ┃
+┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━╇━━━━━╇━━━━┩
+│ 0  │ env                                                     │ H… │   0 │ t… │
+│ 1  │ policy                                                  │ P… │ 1.3 │ t… │
+│    │                                                         │    │   M │    │
+│ 2  │ policy.encoder                                          │ P… │ 839 │ t… │
+│    │                                                         │    │   K │    │
+│ 3  │ policy.encoder.init_embedding                           │ H… │ 50… │ t… │
+│    │                                                         │    │   K │    │
+│ 4  │ policy.encoder.init_embedding.init_embed_depot          │ L… │ 256 │ t… │
+│ 5  │ policy.encoder.init_embedding.pos_encoder               │ P… │   0 │ t… │
+│ 6  │ policy.encoder.init_embedding.pos_embedding_proj        │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 7  │ policy.encoder.init_embedding.init_embed_agents         │ L… │ 512 │ t… │
+│ 8  │ policy.encoder.init_embedding.init_embed_depot_agents   │ L… │ 32… │ t… │
+│    │                                                         │    │   K │    │
+│ 9  │ policy.encoder.init_embedding.init_embed_clients        │ L… │ 640 │ t… │
+│ 10 │ policy.encoder.layers                                   │ S… │ 788 │ t… │
+│    │                                                         │    │   K │    │
+│ 11 │ policy.encoder.layers.0                                 │ T… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 12 │ policy.encoder.layers.0.norm_attn                       │ N… │ 128 │ t… │
+│ 13 │ policy.encoder.layers.0.attention                       │ M… │ 66… │ t… │
+│    │                                                         │    │   K │    │
+│ 14 │ policy.encoder.layers.0.norm_ffn                        │ N… │ 128 │ t… │
+│ 15 │ policy.encoder.layers.0.ffn                             │ P… │ 196 │ t… │
+│    │                                                         │    │   K │    │
+│ 16 │ policy.encoder.layers.1                                 │ T… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 17 │ policy.encoder.layers.1.norm_attn                       │ N… │ 128 │ t… │
+│ 18 │ policy.encoder.layers.1.attention                       │ M… │ 66… │ t… │
+│    │                                                         │    │   K │    │
+│ 19 │ policy.encoder.layers.1.norm_ffn                        │ N… │ 128 │ t… │
+│ 20 │ policy.encoder.layers.1.ffn                             │ P… │ 196 │ t… │
+│    │                                                         │    │   K │    │
+│ 21 │ policy.encoder.layers.2                                 │ T… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 22 │ policy.encoder.layers.2.norm_attn                       │ N… │ 128 │ t… │
+│ 23 │ policy.encoder.layers.2.attention                       │ M… │ 66… │ t… │
+│    │                                                         │    │   K │    │
+│ 24 │ policy.encoder.layers.2.norm_ffn                        │ N… │ 128 │ t… │
+│ 25 │ policy.encoder.layers.2.ffn                             │ P… │ 196 │ t… │
+│    │                                                         │    │   K │    │
+│ 26 │ policy.encoder.norm                                     │ N… │ 128 │ t… │
+│ 27 │ policy.encoder.norm.normalizer                          │ R… │ 128 │ t… │
+│ 28 │ policy.decoder                                          │ P… │ 411 │ t… │
+│    │                                                         │    │   K │    │
+│ 29 │ policy.decoder.context_embedding                        │ H… │ 329 │ t… │
+│    │                                                         │    │   K │    │
+│ 30 │ policy.decoder.context_embedding.proj_agent_feats       │ L… │ 384 │ t… │
+│ 31 │ policy.decoder.context_embedding.proj_global_feats      │ L… │ 128 │ t… │
+│ 32 │ policy.decoder.context_embedding.project_context        │ L… │ 65… │ t… │
+│    │                                                         │    │   K │    │
+│ 33 │ policy.decoder.context_embedding.communication_layers   │ S… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 34 │ policy.decoder.context_embedding.communication_layers.0 │ T… │ 262 │ t… │
+│    │                                                         │    │   K │    │
+│ 35 │ policy.decoder.context_embedding.norm                   │ N… │ 128 │ t… │
+│ 36 │ policy.decoder.context_embedding.norm.normalizer        │ R… │ 128 │ t… │
+│ 37 │ policy.decoder.dynamic_embedding                        │ S… │   0 │ t… │
+│ 38 │ policy.decoder.pointer                                  │ P… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 39 │ policy.decoder.pointer.project_out                      │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 40 │ policy.decoder.project_node_embeddings                  │ L… │ 49… │ t… │
+│    │                                                         │    │   K │    │
+│ 41 │ policy.decoder.project_fixed_context                    │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 42 │ baseline                                                │ N… │   0 │ t… │
+│ 43 │ projection_head                                         │ M… │ 33… │ t… │
+│    │                                                         │    │   K │    │
+│ 44 │ projection_head.0                                       │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+│ 45 │ projection_head.1                                       │ R… │   0 │ t… │
+│ 46 │ projection_head.2                                       │ L… │ 16… │ t… │
+│    │                                                         │    │   K │    │
+└────┴─────────────────────────────────────────────────────────┴────┴─────┴────┘
+Trainable params: 1.3 M                                                         
+Non-trainable params: 0                                                         
+Total params: 1.3 M                                                             
+Total estimated model params size (MB): 5                                       
+Modules in train mode: 79                                                       
+Modules in eval mode: 0                                                         
+[[36m2026-08-24 10:58:20,622[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 11:51:34,863[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 12:45:02,457[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 13:37:58,920[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 14:31:50,458[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 15:25:10,918[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 16:17:40,531[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 17:09:39,664[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 18:02:29,497[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 18:54:48,034[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 19:51:23,801[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 20:46:36,508[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 21:40:28,406[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 22:33:45,211[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-24 23:28:06,766[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-25 00:21:33,544[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-25 01:14:13,040[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+[[36m2026-08-25 02:06:23,802[0m][[34mparco.models.policy[0m][[31mERROR[0m] - Exceeded maximum number of steps (1000000) during decoding[0m
+Epoch 0/99                  11/1563 0:00:36 • 1:11:25 0.36it/s v_num: c8dj      
+                                                               train/reward:    
+                                                               -20.017          
+                                                               train/halting_ra…
+                                                               0.000 train/loss:
+                                                               180.776          
+[[36m2026-08-25 02:09:18,669[0m][[34mrl4co.utils.utils[0m][[31mERROR[0m] - [0m
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 76, in run
+    trainer.fit(model=model, ckpt_path=cfg.get("ckpt_path"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/trainer.py", line 146, in fit
+    super().fit(
+    ~~~~~~~~~~~^
+        model=model,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        ckpt_path=ckpt_path,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 47, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+    return function(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 216, in run
+    self.advance()
+    ~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 455, in advance
+    self.epoch_loop.run(self._data_fetcher)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 150, in run
+    self.advance(data_fetcher)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 320, in advance
+    batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 185, in run
+    closure()
+    ~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+    self._result = self.closure(*args, **kwargs)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+    step_output = self._step_fn()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
+    training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 328, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
+    return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+    wrapper_output = wrapper_module(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1637, in forward
+    else self._run_ddp_forward(*inputs, **kwargs)
+         ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1464, in _run_ddp_forward
+    return self.module(*inputs, **kwargs)  # type: ignore[index]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+    out = method(*_args, **_kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/rl/common/base.py", line 258, in training_step
+    return self.shared_step(batch, batch_idx, phase="train")
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/parco/models/rl.py", line 115, in shared_step
+    out = self.policy(
+        td,
+    ...<2 lines>...
+        return_init_embeds=True,
+    )
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/policy.py", line 188, in forward
+    logits, mask = self.decoder(td, hidden, num_samples, do_unbatchify)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/decoder.py", line 75, in forward
+    glimpse_k, glimpse_v, logit_k = self._compute_kvl(cached, td)
+                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/zoo/am/decoder.py", line 155, in _compute_kvl
+    glimpse_k = glimpse_k_stat + glimpse_k_dyn
+                ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 7.60 GiB of which 2.44 MiB is free. Including non-PyTorch memory, this process has 7.60 GiB memory in use. Of the allocated memory 6.96 GiB is allocated by PyTorch, and 48.54 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[[36m2026-08-25 02:09:18,770[0m][[34mrl4co.utils.utils[0m][[32mINFO[0m] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-24_10-04-51[0m
+[[36m2026-08-25 02:09:18,771[0m][[34mrl4co.utils.utils[0m][[32mINFO[0m] - Closing loggers...[0m
+[[36m2026-08-25 02:09:18,771[0m][[34mrl4co.utils.utils[0m][[32mINFO[0m] - Closing wandb![0m

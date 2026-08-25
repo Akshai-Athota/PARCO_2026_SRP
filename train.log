@@ -1,0 +1,338 @@
+[2026-08-23 08:54:42,060][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-08-23 08:54:42,065][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-08-23 08:54:42,121][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-08-23 08:54:42,775][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-08-23 08:54:42,986][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-08-23 08:54:43,023][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-08-23 08:54:43,048][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/hydra/_internal/instantiate/_instantiate2.py", line 92, in _call_target
+    return _target_(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/rl.py", line 43, in __init__
+    super().__init__(env, policy, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/zoo/symnco/model.py", line 60, in __init__
+    super().__init__(env, policy, baseline, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/rl/reinforce/reinforce.py", line 42, in __init__
+    super().__init__(env, policy, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/rl/common/base.py", line 75, in __init__
+    super().__init__(**litmodule_kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/core/module.py", line 124, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+TypeError: _DeviceDtypeModuleMixin.__init__() got an unexpected keyword argument 'dataloader_persistent_workers'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 43, in run
+    model: LightningModule = hydra.utils.instantiate(cfg.model, env)
+                             ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/hydra/_internal/instantiate/_instantiate2.py", line 226, in instantiate
+    return instantiate_node(
+        config, *args, recursive=_recursive_, convert=_convert_, partial=_partial_
+    )
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/hydra/_internal/instantiate/_instantiate2.py", line 347, in instantiate_node
+    return _call_target(_target_, partial, args, kwargs, full_key)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/hydra/_internal/instantiate/_instantiate2.py", line 97, in _call_target
+    raise InstantiationException(msg) from e
+hydra.errors.InstantiationException: Error in call to target 'parco.models.rl.PARCORLModule':
+TypeError("_DeviceDtypeModuleMixin.__init__() got an unexpected keyword argument 'dataloader_persistent_workers'")
+full_key: model
+[2026-08-23 08:54:43,492][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-23_08-54-41
+[2026-08-23 08:54:43,492][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-08-23 09:00:15,921][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-08-23 09:00:15,927][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-08-23 09:00:15,983][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-08-23 09:00:16,632][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-08-23 09:00:16,818][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-08-23 09:00:16,876][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-08-23 09:00:16,998][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-08-23 09:00:16,998][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-08-23 09:00:17,000][__main__][INFO] - Instantiating callbacks...
+[2026-08-23 09:00:17,000][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-08-23 09:00:17,006][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-08-23 09:00:17,007][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-08-23 09:00:17,007][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-08-23 09:00:17,010][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-08-23 09:00:17,010][__main__][INFO] - Instantiating loggers...
+[2026-08-23 09:00:17,010][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-08-23 09:00:17,014][__main__][INFO] - Instantiating trainer...
+[2026-08-23 09:00:17,043][__main__][INFO] - Logging hyperparameters!
+[2026-08-23 09:00:19,240][__main__][INFO] - Starting training!
+[2026-08-23 09:00:20,639][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-08-23 09:00:20,639][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-08-23 09:00:22,515][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-08-23 09:00:22,943][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-08-23 09:00:23,100][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-08-23 09:00:23,101][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <MultiStepLR>
+[2026-08-23 09:53:23,667][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-23 10:46:01,512][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-23 11:40:36,512][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-23 11:40:41,786][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 76, in run
+    trainer.fit(model=model, ckpt_path=cfg.get("ckpt_path"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/trainer.py", line 146, in fit
+    super().fit(
+    ~~~~~~~~~~~^
+        model=model,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        ckpt_path=ckpt_path,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 47, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+    return function(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1054, in _run_stage
+    self._run_sanity_check()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1083, in _run_sanity_check
+    val_loop.run()
+    ~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 145, in run
+    self._evaluation_step(batch, batch_idx, dataloader_idx, dataloader_iter)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 437, in _evaluation_step
+    output = call._call_strategy_hook(trainer, hook_name, *step_args)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 328, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 411, in validation_step
+    return self._forward_redirection(self.model, self.lightning_module, "validation_step", *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+    wrapper_output = wrapper_module(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1637, in forward
+    else self._run_ddp_forward(*inputs, **kwargs)
+         ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1464, in _run_ddp_forward
+    return self.module(*inputs, **kwargs)  # type: ignore[index]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+    out = method(*_args, **_kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/rl/common/base.py", line 261, in validation_step
+    return self.shared_step(
+           ~~~~~~~~~~~~~~~~^
+        batch, batch_idx, phase="val", dataloader_idx=dataloader_idx
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/parco/models/rl.py", line 115, in shared_step
+    out = self.policy(
+        td,
+    ...<2 lines>...
+        return_init_embeds=True,
+    )
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/policy.py", line 210, in forward
+    ) = decode_strategy.post_decoder_hook(td, env)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/parco/models/decoding_strategies.py", line 138, in post_decoder_hook
+    actions = torch.stack(self.actions, -1)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.38 GiB. GPU 0 has a total capacity of 7.60 GiB of which 1.47 GiB is free. Including non-PyTorch memory, this process has 6.13 GiB memory in use. Of the allocated memory 5.51 GiB is allocated by PyTorch, and 40.53 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[2026-08-23 11:40:41,814][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-23_09-00-15
+[2026-08-23 11:40:41,815][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-08-23 11:40:41,816][rl4co.utils.utils][INFO] - Closing wandb!
+[2026-08-24 10:04:52,008][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-08-24 10:04:52,012][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-08-24 10:04:52,068][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-08-24 10:04:52,729][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-08-24 10:04:52,903][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-08-24 10:04:52,982][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-08-24 10:04:53,040][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-08-24 10:04:53,040][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-08-24 10:04:53,042][__main__][INFO] - Instantiating callbacks...
+[2026-08-24 10:04:53,042][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-08-24 10:04:53,048][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-08-24 10:04:53,049][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-08-24 10:04:53,049][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-08-24 10:04:53,052][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-08-24 10:04:53,052][__main__][INFO] - Instantiating loggers...
+[2026-08-24 10:04:53,052][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-08-24 10:04:53,056][__main__][INFO] - Instantiating trainer...
+[2026-08-24 10:04:53,083][__main__][INFO] - Logging hyperparameters!
+[2026-08-24 10:04:55,114][__main__][INFO] - Starting training!
+[2026-08-24 10:04:56,490][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-08-24 10:04:56,491][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-08-24 10:04:59,017][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-08-24 10:04:59,533][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-08-24 10:04:59,743][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-08-24 10:04:59,743][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <MultiStepLR>
+[2026-08-24 10:58:20,622][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 11:51:34,863][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 12:45:02,457][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 13:37:58,920][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 14:31:50,458][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 15:25:10,918][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 16:17:40,531][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 17:09:39,664][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 18:02:29,497][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 18:54:48,034][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 19:51:23,801][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 20:46:36,508][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 21:40:28,406][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 22:33:45,211][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-24 23:28:06,766][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-25 00:21:33,544][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-25 01:14:13,040][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-25 02:06:23,802][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-25 02:09:18,669][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 76, in run
+    trainer.fit(model=model, ckpt_path=cfg.get("ckpt_path"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/trainer.py", line 146, in fit
+    super().fit(
+    ~~~~~~~~~~~^
+        model=model,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        ckpt_path=ckpt_path,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 47, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+    return function(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 216, in run
+    self.advance()
+    ~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 455, in advance
+    self.epoch_loop.run(self._data_fetcher)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 150, in run
+    self.advance(data_fetcher)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 320, in advance
+    batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 185, in run
+    closure()
+    ~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+    self._result = self.closure(*args, **kwargs)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+    step_output = self._step_fn()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
+    training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 328, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
+    return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
+    wrapper_output = wrapper_module(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1637, in forward
+    else self._run_ddp_forward(*inputs, **kwargs)
+         ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1464, in _run_ddp_forward
+    return self.module(*inputs, **kwargs)  # type: ignore[index]
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
+    out = method(*_args, **_kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/rl/common/base.py", line 258, in training_step
+    return self.shared_step(batch, batch_idx, phase="train")
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/parco/models/rl.py", line 115, in shared_step
+    out = self.policy(
+        td,
+    ...<2 lines>...
+        return_init_embeds=True,
+    )
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/policy.py", line 188, in forward
+    logits, mask = self.decoder(td, hidden, num_samples, do_unbatchify)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/parco/models/decoder.py", line 75, in forward
+    glimpse_k, glimpse_v, logit_k = self._compute_kvl(cached, td)
+                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/zoo/am/decoder.py", line 155, in _compute_kvl
+    glimpse_k = glimpse_k_stat + glimpse_k_dyn
+                ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 7.60 GiB of which 2.44 MiB is free. Including non-PyTorch memory, this process has 7.60 GiB memory in use. Of the allocated memory 6.96 GiB is allocated by PyTorch, and 48.54 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+[2026-08-25 02:09:18,770][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-24_10-04-51
+[2026-08-25 02:09:18,771][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-08-25 02:09:18,771][rl4co.utils.utils][INFO] - Closing wandb!

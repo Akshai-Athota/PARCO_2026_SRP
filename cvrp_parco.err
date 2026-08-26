@@ -1,0 +1,82 @@
+[rank: 0] Seed set to 1234
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torchrl/data/replay_buffers/samplers.py:37: UserWarning: Failed to import torchrl C++ binaries. Some modules (eg, prioritized replay buffers) may not work with your installation. This is likely due to a discrepancy between your package version and the PyTorch version. Make sure both are compatible. Usually, torchrl majors follow the pytorch majors within a few days around the release. For instance, TorchRL 0.5 requires PyTorch 2.4.0, and TorchRL 0.6 requires PyTorch 2.5.0.
+  warnings.warn(EXTENSION_WARNING)
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/utilities/parsing.py:209: Attribute 'env' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['env'])`.
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/utilities/parsing.py:209: Attribute 'policy' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['policy'])`.
+Using 16bit Automatic Mixed Precision (AMP)
+Trainer already configured with model summary callbacks: [<class 'lightning.pytorch.callbacks.rich_model_summary.RichModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+wandb: WARNING The anonymous setting has no effect and will be removed in a future version.
+wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id 8hsaqxa2.
+wandb: Tracking run with wandb version 0.26.1
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /home/athota/PARCO_2026_SRP/logs/train/runs/cvrp_n100_m7/parco/2026-08-25_09-36-29/wandb/offline-run-20260825_093635-8hsaqxa2
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 1 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:54: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  ALLREDUCE = partial(_ddp_comm_hook_wrapper, comm_hook=default.allreduce_hook)
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:55: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  FP16_COMPRESS = partial(
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:58: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BF16_COMPRESS = partial(
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:61: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  QUANTIZE_PER_TENSOR = partial(
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:64: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  QUANTIZE_PER_CHANNEL = partial(
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:67: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  POWER_SGD = partial(
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:74: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  POWER_SGD_RANK2 = partial(
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:80: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BATCHED_POWER_SGD = partial(
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:85: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  BATCHED_POWER_SGD_RANK2 = partial(
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/distributed/algorithms/ddp_comm_hooks/__init__.py:90: FutureWarning: functools.partial will be a method descriptor in future Python versions; wrap it in enum.member() if you want to preserve the old behavior
+  NOOP = partial(
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:420: Consider setting `persistent_workers=True` in 'val_dataloader' to speed up the dataloader worker initialization.
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:420: Consider setting `persistent_workers=True` in 'train_dataloader' to speed up the dataloader worker initialization.
+`Trainer.fit` stopped: `max_epochs=100` reached.
+Restoring states from the checkpoint path at /home/athota/PARCO_2026_SRP/logs/train/runs/cvrp_n100_m7/parco/2026-08-25_09-36-29/checkpoints/epoch_099.ckpt
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
+Loaded model weights from the checkpoint at /home/athota/PARCO_2026_SRP/logs/train/runs/cvrp_n100_m7/parco/2026-08-25_09-36-29/checkpoints/epoch_099.ckpt
+SLURM auto-requeueing enabled. Setting signal handlers.
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:216: Using `DistributedSampler` with the dataloaders. During `trainer.test()`, it is recommended to use `Trainer(devices=1, num_nodes=1)` to ensure each sample/batch gets evaluated exactly once. Otherwise, multi-device settings use `DistributedSampler` that replicates some samples to make sure all devices have same batch size in case of uneven inputs.
+/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:420: Consider setting `persistent_workers=True` in 'test_dataloader' to speed up the dataloader worker initialization.
+wandb: 
+wandb: Run history:
+wandb:                epoch ▁▁▁▁▂▂▂▂▂▃▃▃▃▄▄▄▄▄▄▄▅▅▅▅▅▅▅▆▆▆▆▇▇▇▇▇▇███
+wandb:              lr-Adam █████████████████████████████████▂▂▂▂▂▂▁
+wandb:   test/halting_ratio ▁
+wandb:          test/reward ▁
+wandb:       time/epoch (s) ▁▄▆▆▆▆▇▇▇▇▇▆▇▇▆▇██▇▇███▇▇██▇▇▇▇▇█▇█▇▇▇▇▇
+wandb: time/inter_step (ms) ▁▂▄▅▄▅▆▅▇▆▆█▅▆▅▃▅▇▆▃▆▅▆▅▄▆▇▆▄▅▅▃▄▆█▅▇▄▅▇
+wandb: time/intra_step (ms) ▂▃▃▄▃▂▄▅▅▁▃▆█▆▃▃█▅▇▄▅▃▅▃▅▆▅▃▅▄▅▅▃▄▆▃▆▄▅▃
+wandb:  train/halting_ratio █▃█▃▃▃▃▄▂▂▂▃▃▂▂▂▂▅▃▂▄▂▁▃▃▁▂▂▂▂▂▂▁▁▂▁▁▁▁▂
+wandb:           train/loss ▁▅▅▄▄▇▃▃▄▆▆▇▆▆▅▇▆▅▃▄▆▇▄▆▆▇▄▅▆▇▆▆▆█▆▆▆▆▇▅
+wandb:         train/reward ▁▅▇▆▆▇▇▆▅▆▇▇▆▇█▆▇▇▇▆▅▅▇█▆█▇▆▅▇▇██▅▅▇█▇▇▆
+wandb:                   +3 ...
+wandb: 
+wandb: Run summary:
+wandb:                epoch 100
+wandb:              lr-Adam 0.0
+wandb:   test/halting_ratio 0.06434
+wandb:          test/reward -3.99896
+wandb:       time/epoch (s) 567.42263
+wandb: time/inter_step (ms) 8.78406
+wandb: time/intra_step (ms) 391.64042
+wandb:  train/halting_ratio 0.05833
+wandb:           train/loss -0.14159
+wandb:         train/reward -4.73623
+wandb:                   +3 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /home/athota/PARCO_2026_SRP/logs/train/runs/cvrp_n100_m7/parco/2026-08-25_09-36-29/wandb/offline-run-20260825_093635-8hsaqxa2
+wandb: Find logs at: ./logs/train/runs/cvrp_n100_m7/parco/2026-08-25_09-36-29/wandb/offline-run-20260825_093635-8hsaqxa2/logs

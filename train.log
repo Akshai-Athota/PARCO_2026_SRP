@@ -336,3 +336,121 @@ torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 ha
 [2026-08-25 02:09:18,770][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-24_10-04-51
 [2026-08-25 02:09:18,771][rl4co.utils.utils][INFO] - Closing loggers...
 [2026-08-25 02:09:18,771][rl4co.utils.utils][INFO] - Closing wandb!
+[2026-08-26 10:14:13,170][rl4co.utils.utils][INFO] - Enforcing tags! <cfg.extras.enforce_tags=True>
+[2026-08-26 10:14:13,177][rl4co.utils.utils][INFO] - Printing config tree with Rich! <cfg.extras.print_config=True>
+[2026-08-26 10:14:13,341][__main__][INFO] - Instantiating environment <parco.envs.hcvrp.HCVRPEnv>
+[2026-08-26 10:14:14,390][__main__][INFO] - Instantiating model <parco.models.rl.PARCORLModule>
+[2026-08-26 10:14:14,697][parco.models.policy][INFO] - Initializing default PARCOEncoder
+[2026-08-26 10:14:14,752][parco.models.policy][INFO] - Initializing default PARCODecoder
+[2026-08-26 10:14:14,829][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-08-26 10:14:14,829][rl4co.data.transforms][INFO] - Features not passed, defaulting to 'locs'
+[2026-08-26 10:14:14,830][__main__][INFO] - Instantiating callbacks...
+[2026-08-26 10:14:14,831][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.ModelCheckpoint>
+[2026-08-26 10:14:14,839][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichModelSummary>
+[2026-08-26 10:14:14,839][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.RichProgressBar>
+[2026-08-26 10:14:14,839][rl4co.utils.instantiators][INFO] - Instantiating callback <rl4co.utils.callbacks.speed_monitor.SpeedMonitor>
+[2026-08-26 10:14:14,859][rl4co.utils.instantiators][INFO] - Instantiating callback <lightning.pytorch.callbacks.LearningRateMonitor>
+[2026-08-26 10:14:14,860][__main__][INFO] - Instantiating loggers...
+[2026-08-26 10:14:14,860][rl4co.utils.instantiators][INFO] - Instantiating logger <lightning.pytorch.loggers.wandb.WandbLogger>
+[2026-08-26 10:14:14,866][__main__][INFO] - Instantiating trainer...
+[2026-08-26 10:14:14,896][__main__][INFO] - Logging hyperparameters!
+[2026-08-26 10:14:25,096][__main__][INFO] - Starting training!
+[2026-08-26 10:14:27,114][rl4co.models.rl.common.base][INFO] - Setting up batch sizes for train/val/test
+[2026-08-26 10:14:27,115][rl4co.models.rl.common.base][INFO] - Setting up datasets
+[2026-08-26 10:14:29,307][rl4co.envs.common.base][INFO] - Loading val dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-08-26 10:14:30,053][rl4co.envs.common.base][INFO] - Loading test dataset from ['/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n60_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n80_m7_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m3_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m5_seed24610.npz', '/home/athota/PARCO_2026_SRP/data/hcvrp/n100_m7_seed24610.npz']
+[2026-08-26 10:14:30,304][rl4co.models.rl.common.base][INFO] - Instantiating optimizer <Adam>
+[2026-08-26 10:14:30,305][rl4co.models.rl.common.base][INFO] - Instantiating LR scheduler <MultiStepLR>
+[2026-08-26 11:07:02,156][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 11:59:08,097][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 12:51:53,968][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 13:43:39,830][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 14:37:28,246][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 15:29:41,664][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 16:22:52,072][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 17:15:15,004][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 18:07:44,499][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 18:59:45,684][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 19:52:36,432][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 20:44:59,222][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 21:38:26,089][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 22:30:25,417][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-26 23:24:01,035][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-27 00:16:57,901][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-27 01:10:02,978][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-27 02:02:40,721][parco.models.policy][ERROR] - Exceeded maximum number of steps (1000000) during decoding
+[2026-08-27 02:04:58,909][rl4co.utils.utils][ERROR] - 
+Traceback (most recent call last):
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/utils.py", line 41, in wrap
+    metric_dict, object_dict = task_func(cfg=cfg)
+                               ~~~~~~~~~^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/train.py", line 76, in run
+    trainer.fit(model=model, ckpt_path=cfg.get("ckpt_path"))
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/utils/trainer.py", line 146, in fit
+    super().fit(
+    ~~~~~~~~~~~^
+        model=model,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        ckpt_path=ckpt_path,
+        ^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 561, in fit
+    call._call_and_handle_interrupt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, self._fit_impl, model, train_dataloaders, val_dataloaders, datamodule, ckpt_path
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 47, in _call_and_handle_interrupt
+    return trainer.strategy.launcher.launch(trainer_fn, *args, trainer=trainer, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/launchers/subprocess_script.py", line 105, in launch
+    return function(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 599, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1012, in _run
+    results = self._run_stage()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/trainer.py", line 1056, in _run_stage
+    self.fit_loop.run()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 216, in run
+    self.advance()
+    ~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/fit_loop.py", line 455, in advance
+    self.epoch_loop.run(self._data_fetcher)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 150, in run
+    self.advance(data_fetcher)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 320, in advance
+    batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 185, in run
+    closure()
+    ~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 146, in __call__
+    self._result = self.closure(*args, **kwargs)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
+    step_output = self._step_fn()
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 329, in _training_step
+    return self.output_result_cls.from_training_step_output(training_step_output, trainer.accumulate_grad_batches)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 85, in from_training_step_output
+    return cls(closure_loss, extra=extra)
+  File "<string>", line 5, in __init__
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 54, in __post_init__
+    self._clone_loss()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 59, in _clone_loss
+    self.loss = self.closure_loss.detach().clone()
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'float' object has no attribute 'detach'
+[2026-08-27 02:04:58,992][rl4co.utils.utils][INFO] - Output dir: /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-26_10-14-13
+[2026-08-27 02:04:58,992][rl4co.utils.utils][INFO] - Closing loggers...
+[2026-08-27 02:04:58,993][rl4co.utils.utils][INFO] - Closing wandb!

@@ -22,9 +22,9 @@ export NCCL_IB_DISABLE=1
 # PAR train/val/test decode (unchanged default sampling/greedy, no
 # group_size) -- no sequential decoding here.
 srun python train.py experiment=hcvrp_wait_action \
-    model.batch_size=8 \
-    model.val_batch_size=8 \
+    model.batch_size=2 \
+    model.val_batch_size=2 \
     model.test_batch_size=8 \
-    model.num_augment=4 \
+    model.num_augment=1 \
     +model.dataloader_num_workers=7 \
     +trainer.accumulate_grad_batches=8

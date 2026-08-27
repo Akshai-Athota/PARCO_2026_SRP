@@ -8,11 +8,9 @@ Trainer already configured with model summary callbacks: [<class 'lightning.pyto
 GPU available: True (cuda), used: True
 TPU available: False, using: 0 TPU cores
 HPU available: False, using: 0 HPUs
-wandb: WARNING The anonymous setting has no effect and will be removed in a future version.
-wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id lm1bc8dj.
-wandb: Tracking run with wandb version 0.26.1
+wandb: WARNING `resume` will be ignored since W&B syncing is set to `offline`. Starting a new run with run id w8mds6zk.
+wandb: Tracking run with wandb version 0.19.10
 wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
-wandb: Run data is saved locally in /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-24_10-04-51/wandb/offline-run-20260824_100454-lm1bc8dj
 Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/1
 ----------------------------------------------------------------------------------------------------
 distributed_backend=nccl
@@ -43,6 +41,7 @@ LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3,4,5,6,7]
 SLURM auto-requeueing enabled. Setting signal handlers.
 /home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:420: Consider setting `persistent_workers=True` in 'val_dataloader' to speed up the dataloader worker initialization.
 /home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:420: Consider setting `persistent_workers=True` in 'train_dataloader' to speed up the dataloader worker initialization.
+wandb:                                                                                
 wandb: 
 wandb: Run history:
 wandb:             lr-Adam ▁
@@ -53,9 +52,9 @@ wandb:             lr-Adam 0.0001
 wandb: trainer/global_step 0
 wandb: 
 wandb: You can sync this run to the cloud by running:
-wandb: wandb sync /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-24_10-04-51/wandb/offline-run-20260824_100454-lm1bc8dj
-wandb: Find logs at: ./logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-24_10-04-51/wandb/offline-run-20260824_100454-lm1bc8dj/logs
-Error executing job with overrides: ['experiment=hcvrp_wait_action', 'model.batch_size=8', 'model.val_batch_size=8', 'model.test_batch_size=8', 'model.num_augment=4', '+model.dataloader_num_workers=7', '+trainer.accumulate_grad_batches=8']
+wandb: wandb sync /home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-26_10-14-13/wandb/offline-run-20260826_101422-w8mds6zk
+wandb: Find logs at: ./logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-26_10-14-13/wandb/offline-run-20260826_101422-w8mds6zk/logs
+Error executing job with overrides: ['experiment=hcvrp_wait_action', 'model.batch_size=2', 'model.val_batch_size=2', 'model.test_batch_size=8', 'model.num_augment=1', '+model.dataloader_num_workers=7', '+trainer.accumulate_grad_batches=8']
 Traceback (most recent call last):
   File "/home/athota/PARCO_2026_SRP/train.py", line 104, in train
     metric_dict, _ = run(cfg)
@@ -119,62 +118,19 @@ Traceback (most recent call last):
     return func(*args, **kwargs)
   File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 131, in closure
     step_output = self._step_fn()
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 319, in _training_step
-    training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/trainer/call.py", line 328, in _call_strategy_hook
-    output = fn(*args, **kwargs)
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 390, in training_step
-    return self._forward_redirection(self.model, self.lightning_module, "training_step", *args, **kwargs)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 641, in __call__
-    wrapper_output = wrapper_module(*args, **kwargs)
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1637, in forward
-    else self._run_ddp_forward(*inputs, **kwargs)
-         ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/parallel/distributed.py", line 1464, in _run_ddp_forward
-    return self.module(*inputs, **kwargs)  # type: ignore[index]
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/strategies/strategy.py", line 634, in wrapped_forward
-    out = method(*_args, **_kwargs)
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/rl/common/base.py", line 258, in training_step
-    return self.shared_step(batch, batch_idx, phase="train")
-           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/parco/models/rl.py", line 115, in shared_step
-    out = self.policy(
-        td,
-    ...<2 lines>...
-        return_init_embeds=True,
-    )
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/home/athota/PARCO_2026_SRP/parco/models/policy.py", line 188, in forward
-    logits, mask = self.decoder(td, hidden, num_samples, do_unbatchify)
-                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1751, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1762, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/home/athota/PARCO_2026_SRP/parco/models/decoder.py", line 75, in forward
-    glimpse_k, glimpse_v, logit_k = self._compute_kvl(cached, td)
-                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
-  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/rl4co/models/zoo/am/decoder.py", line 155, in _compute_kvl
-    glimpse_k = glimpse_k_stat + glimpse_k_dyn
-                ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 7.60 GiB of which 2.44 MiB is free. Including non-PyTorch memory, this process has 7.60 GiB memory in use. Of the allocated memory 6.96 GiB is allocated by PyTorch, and 48.54 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 329, in _training_step
+    return self.output_result_cls.from_training_step_output(training_step_output, trainer.accumulate_grad_batches)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 85, in from_training_step_output
+    return cls(closure_loss, extra=extra)
+  File "<string>", line 5, in __init__
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 54, in __post_init__
+    self._clone_loss()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/athota/PARCO_2026_SRP/.venv/lib/python3.13/site-packages/lightning/pytorch/loops/optimization/automatic.py", line 59, in _clone_loss
+    self.loss = self.closure_loss.detach().clone()
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'float' object has no attribute 'detach'
 
 Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
 srun: error: stud-000: task 0: Exited with exit code 1

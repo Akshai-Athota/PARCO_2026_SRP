@@ -1,0 +1,147 @@
+{
+  "os": "Linux-6.8.0-31-generic-x86_64-with-glibc2.39",
+  "python": "CPython 3.13.12",
+  "startedAt": "2026-08-26T08:14:23.352041Z",
+  "args": [
+    "experiment=hcvrp_wait_action",
+    "model.batch_size=2",
+    "model.val_batch_size=2",
+    "model.test_batch_size=8",
+    "model.num_augment=1",
+    "+model.dataloader_num_workers=7",
+    "+trainer.accumulate_grad_batches=8"
+  ],
+  "program": "/home/athota/PARCO_2026_SRP/train.py",
+  "codePath": "train.py",
+  "git": {
+    "remote": "https://Akshai-Athota:@github.com/Akshai-Athota/PARCO_2026_SRP.git",
+    "commit": "834dc542081891dc8d83f3411b749feec458af51"
+  },
+  "root": "/home/athota/PARCO_2026_SRP/logs/train/runs/hcvrp_n100_m7/parco_wait_action/2026-08-26_10-14-13",
+  "host": "stud-000",
+  "executable": "/home/athota/PARCO_2026_SRP/.venv/bin/python",
+  "codePathLocal": "train.py",
+  "cpu_count": 40,
+  "cpu_count_logical": 80,
+  "gpu": "NVIDIA GeForce RTX 2070 SUPER",
+  "gpu_count": 8,
+  "disk": {
+    "/": {
+      "total": "1139657125888",
+      "used": "23003795456"
+    }
+  },
+  "memory": {
+    "total": "270066823168"
+  },
+  "cpu": {
+    "count": 40,
+    "countLogical": 80
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA GeForce RTX 2070 SUPER",
+      "memoryTotal": "8589934592",
+      "cudaCores": 2560,
+      "architecture": "Turing"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 2070 SUPER",
+      "memoryTotal": "8589934592",
+      "cudaCores": 2560,
+      "architecture": "Turing"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 2070 SUPER",
+      "memoryTotal": "8589934592",
+      "cudaCores": 2560,
+      "architecture": "Turing"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 2070 SUPER",
+      "memoryTotal": "8589934592",
+      "cudaCores": 2560,
+      "architecture": "Turing"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 2070 SUPER",
+      "memoryTotal": "8589934592",
+      "cudaCores": 2560,
+      "architecture": "Turing"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 2070 SUPER",
+      "memoryTotal": "8589934592",
+      "cudaCores": 2560,
+      "architecture": "Turing"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 2070 SUPER",
+      "memoryTotal": "8589934592",
+      "cudaCores": 2560,
+      "architecture": "Turing"
+    },
+    {
+      "name": "NVIDIA GeForce RTX 2070 SUPER",
+      "memoryTotal": "8589934592",
+      "cudaCores": 2560,
+      "architecture": "Turing"
+    }
+  ],
+  "slurm": {
+    "cluster_name": "bigmama",
+    "conf": "/etc/slurm/slurm.conf",
+    "cpu_bind": "quiet,mask_cpu:0x00FFFFFFFF00FFFFFFFF",
+    "cpu_bind_list": "0x00FFFFFFFF00FFFFFFFF",
+    "cpu_bind_type": "mask_cpu:",
+    "cpu_bind_verbose": "quiet",
+    "cpus_on_node": "64",
+    "distribution": "cyclic",
+    "gpus_on_node": "8",
+    "gtids": "0",
+    "job_account": "stud",
+    "job_cpus_per_node": "64",
+    "job_end_time": "1787991239",
+    "job_gid": "1515",
+    "job_gpus": "0,1,2,3,4,5,6,7",
+    "job_group": "students",
+    "job_id": "177661",
+    "job_name": "parco_hcvrp_wait_action",
+    "job_nodelist": "stud-000",
+    "job_num_nodes": "1",
+    "job_partition": "STUD",
+    "job_qos": "normal",
+    "job_start_time": "1787732039",
+    "job_uid": "1672",
+    "job_user": "athota",
+    "jobid": "177661",
+    "launch_node_ipaddr": "10.1.1.20",
+    "localid": "0",
+    "nnodes": "1",
+    "nodeid": "0",
+    "nodelist": "stud-000",
+    "nprocs": "1",
+    "ntasks": "1",
+    "oom_kill_step": "0",
+    "prio_process": "0",
+    "procid": "0",
+    "srun_comm_host": "10.1.1.20",
+    "srun_comm_port": "33449",
+    "step_gpus": "0,1,2,3,4,5,6,7",
+    "step_id": "0",
+    "step_launcher_port": "33449",
+    "step_nodelist": "stud-000",
+    "step_num_nodes": "1",
+    "step_num_tasks": "1",
+    "step_tasks_per_node": "1",
+    "stepid": "0",
+    "submit_dir": "/home/athota/PARCO_2026_SRP",
+    "submit_host": "masternext",
+    "task_pid": "4040093",
+    "tasks_per_node": "1",
+    "topology_addr": "stud-000",
+    "topology_addr_pattern": "node",
+    "umask": "0022"
+  },
+  "cudaVersion": "13.2"
+}
